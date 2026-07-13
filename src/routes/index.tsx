@@ -1,3 +1,4 @@
+import { seo } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Star, ShieldCheck, Clock, MessageCircle, MapPin, Play } from "lucide-react";
@@ -20,23 +21,15 @@ export const Route = createFileRoute("/")({
     context.queryClient.ensureQueryData(faqsQueryOptions());
     context.queryClient.ensureQueryData(testimonialsQueryOptions());
   },
-  head: () => ({
-    meta: [
-      { title: "Japan Tours by Local Experts — Private & Luxury | Nippon Tours" },
-      {
-        name: "description",
-        content:
-          "Award-winning private, group and luxury Japan tours. Licensed local guides, custom itineraries, free consultation. Tokyo, Kyoto, Osaka & beyond.",
-      },
-      { property: "og:title", content: "Japan Tours by Local Experts — Nippon Tours" },
-      {
-        property: "og:description",
-        content: "Japan, crafted around you. Private, group and luxury tours with licensed local guides.",
-      },
-      { property: "og:url", content: "/" },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
+ head: () =>
+  seo({
+    title: "Private Japan Tours | Luxury & Custom Japan Trips | Nippon Tours",
+    description:
+      "Explore Japan with licensed local experts. Private tours, luxury holidays, cherry blossom tours, Mount Fuji, Kyoto, Osaka, Tokyo and fully customized itineraries.",
+    path: "/",
+    image: "/og-home.jpg",
   }),
+
   component: HomePage,
 });
 

@@ -1,3 +1,4 @@
+import { TOURS } from "@/data/tours";
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import heroFuji from "@/assets/hero-fuji.jpg";
@@ -56,13 +57,7 @@ export const toursQueryOptions = () =>
   queryOptions({
     queryKey: ["tours", "public"],
     queryFn: async (): Promise<Tour[]> => {
-      const { data, error } = await supabase
-        .from("tours")
-        .select("*")
-        .eq("published", true)
-        .order("sort_order", { ascending: true });
-      if (error) throw error;
-      return ((data ?? []) as unknown as Tour[]).map(withBundledTourImage);
+      return TOURS as unknown as Tour[];
     },
   });
 

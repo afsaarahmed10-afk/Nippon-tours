@@ -1,17 +1,15 @@
+import { seo } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { CategoryLanding } from "@/components/site/CategoryLanding";
 import kyotoImgAsset from "@/assets/dest-kyoto.jpg";
 const kyotoImg = kyotoImgAsset;
 export const Route = createFileRoute("/group-tours")({
-  head: () => ({
-    meta: [
-      { title: "Small Group Japan Tours (Max 12 Guests) | Nippon Tours" },
-      { name: "description", content: "Small group Japan tours capped at 12 guests — expert guides, honest prices, and travel companions worth keeping. Kyoto, food tours, Hiroshima and more." },
-      { property: "og:title", content: "Small Group Japan Tours | Nippon Tours" },
-      { property: "og:description", content: "Capped at 12 guests. Expert guides, honest prices, great company." },
-      { property: "og:url", content: "/group-tours" },
-    ],
-    links: [{ rel: "canonical", href: "/group-tours" }],
+ head: () =>
+  seo({
+    title: "Japan Group Tours | Small Group Holidays",
+    description:
+      "Join expertly guided small group tours across Japan featuring Tokyo, Kyoto, Osaka, Mount Fuji and more.",
+    path: "/group-tours",
   }),
   component: () => (
     <CategoryLanding

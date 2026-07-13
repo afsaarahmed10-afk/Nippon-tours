@@ -1,3 +1,4 @@
+import { seo } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import guideTeamAsset from "@/assets/guide-team.jpg";
 const guideTeam = guideTeamAsset;
@@ -6,15 +7,12 @@ import { PageHero, CTABand, SectionHeading } from "@/components/site/PageHero";
 import { Reveal, CountUp } from "@/components/site/Reveal";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Nippon Tours: Licensed Japan Travel Experts Since 2014" },
-      { name: "description", content: "Meet the licensed local guides and travel designers behind Nippon Tours — 12+ years crafting private, group and luxury journeys across Japan." },
-      { property: "og:title", content: "About Nippon Tours" },
-      { property: "og:description", content: "Licensed local guides and travel designers crafting Japan journeys since 2014." },
-      { property: "og:url", content: "/about" },
-    ],
-    links: [{ rel: "canonical", href: "/about" }],
+ head: () =>
+  seo({
+    title: "About Nippon Tours | Local Japan Travel Experts",
+    description:
+      "Learn about Nippon Tours, our experienced local guides, and our passion for creating unforgettable private and luxury Japan tours.",
+    path: "/about",
   }),
   component: AboutPage,
 });

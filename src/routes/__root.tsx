@@ -1,3 +1,4 @@
+import { Schema } from "@/components/seo/Schema";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -109,9 +110,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": ["TravelAgency", "LocalBusiness", "Organization"],
           name: "Nippon Tours",
           description: "Licensed Japan tour operator crafting private, group and luxury tours across Japan.",
-          url: "/",
-          logo: "/favicon.png",
-          image: "/favicon.png",
+          url: "https://nippon-tours.com",
+          logo: "https://nippon-tours.com/favicon.png",
+          image: "https://nippon-tours.com/og-image.jpg",
           areaServed: { "@type": "Country", name: "Japan" },
           telephone: "+81-80-5500-2929",
           email: "nic@nippon-tours.com",
@@ -130,7 +131,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "Nippon Tours",
-          url: "/",
+          url: "https://nippon-tours.com",
           potentialAction: {
             "@type": "SearchAction",
             target: "/tours?q={search_term_string}",

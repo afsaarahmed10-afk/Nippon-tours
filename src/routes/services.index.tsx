@@ -11,9 +11,14 @@ export const Route = createFileRoute("/services/")({
       { name: "description", content: "Full destination management services in Japan: FIT, MICE, corporate travel, educational tours, chauffeur, car rental, hotel and restaurant concierge." },
       { property: "og:title", content: "Japan Travel Services | Nippon Tours" },
       { property: "og:description", content: "Destination management, transport and concierge services for travellers, agents and corporate clients across Japan." },
-      { property: "og:url", content: "/services" },
+      { property: "og:url", content: "https://nippon-tours.com/services" },
     ],
-    links: [{ rel: "canonical", href: "/services" }],
+    links: [
+  {
+    rel: "canonical",
+    href: "https://nippon-tours.com/services",
+  },
+],
   }),
   component: ServicesIndex,
 });

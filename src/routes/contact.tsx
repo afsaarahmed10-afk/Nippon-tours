@@ -1,3 +1,4 @@
+import { seo } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { MessageCircle, Mail, Phone, Clock } from "lucide-react";
 import { SITE } from "@/data/site";
@@ -7,15 +8,12 @@ import { InquiryForm } from "@/components/site/InquiryForm";
 import tokyoImgAsset from "@/assets/dest-tokyo.jpg";
 const tokyoImg = tokyoImgAsset;
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact Nippon Tours: Free Japan Trip Consultation" },
-      { name: "description", content: "Contact Nippon Tours by WhatsApp, email or inquiry form. Free consultation, replies within one business hour." },
-      { property: "og:title", content: "Contact Nippon Tours" },
-      { property: "og:description", content: "Free consultation. Replies within one business hour." },
-      { property: "og:url", content: "/contact" },
-    ],
-    links: [{ rel: "canonical", href: "/contact" }],
+  head: () =>
+  seo({
+    title: "Contact Nippon Tours | Plan Your Japan Trip",
+    description:
+      "Contact our Japan travel experts for a free consultation. We'll help you design your perfect Japan itinerary.",
+    path: "/contact",
   }),
   component: ContactPage,
 });

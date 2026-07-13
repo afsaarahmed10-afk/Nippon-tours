@@ -37,9 +37,17 @@ export const Route = createFileRoute("/tours/")({
       { name: "description", content: "Browse expertly crafted Japan tours — private guided tours, small group tours, luxury ryokan journeys and seasonal cherry blossom & autumn tours. Prices in JPY." },
       { property: "og:title", content: "Japan Tours & Packages | Nippon Tours" },
       { property: "og:description", content: "Private, group, luxury and seasonal Japan tours with licensed local guides." },
-      { property: "og:url", content: "/tours" },
+      {
+  property: "og:url",
+  content: "https://nippon-tours.com/tours",
+},
     ],
-    links: [{ rel: "canonical", href: "/tours" }],
+    links: [
+  {
+    rel: "canonical",
+    href: "https://nippon-tours.com/tours",
+  },
+],
   }),
   component: ToursPage,
 });

@@ -14,7 +14,12 @@ export const Route = createFileRoute("/destinations/")({
       { property: "og:description", content: "Tokyo, Kyoto, Osaka, Hakone, Hiroshima and the Japanese Alps — explored with local experts." },
       { property: "og:url", content: "/destinations" },
     ],
-    links: [{ rel: "canonical", href: "/destinations" }],
+    links: [
+  {
+    rel: "canonical",
+    href: "https://nippon-tours.com/destinations",
+  },
+]
   }),
   component: DestinationsPage,
 });

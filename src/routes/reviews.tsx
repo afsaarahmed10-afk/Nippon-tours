@@ -1,3 +1,4 @@
+import { seo } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
@@ -16,15 +17,12 @@ export const Route = createFileRoute("/reviews")({
     context.queryClient.ensureQueryData(testimonialsQueryOptions());
     context.queryClient.ensureQueryData(approvedReviewsQueryOptions());
   },
-  head: () => ({
-    meta: [
-      { title: "Nippon Tours Reviews: 4.9/5 from 1,900+ Travellers" },
-      { name: "description", content: "Read real reviews from Nippon Tours guests — rated 4.9/5 across Google and Tripadvisor for private, group and luxury Japan tours." },
-      { property: "og:title", content: "Nippon Tours Reviews — 4.9/5" },
-      { property: "og:description", content: "Real words from travellers who trusted us with their once-in-a-lifetime trip." },
-      { property: "og:url", content: "/reviews" },
-    ],
-    links: [{ rel: "canonical", href: "/reviews" }],
+  head: () =>
+  seo({
+    title: "Customer Reviews | Nippon Tours",
+    description:
+      "Read real customer reviews from travelers who explored Japan with Nippon Tours.",
+    path: "/reviews",
   }),
   component: ReviewsPage,
 });

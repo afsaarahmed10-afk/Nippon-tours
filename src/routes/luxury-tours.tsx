@@ -1,17 +1,15 @@
+import { seo } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { CategoryLanding } from "@/components/site/CategoryLanding";
 import ryokanImgAsset from "@/assets/tour-ryokan.jpg";
 const ryokanImg = ryokanImgAsset;
 export const Route = createFileRoute("/luxury-tours")({
-  head: () => ({
-    meta: [
-      { title: "Luxury Japan Tours: Private Onsen, Ryokan & Drivers | Nippon Tours" },
-      { name: "description", content: "Luxury Japan tours — hand-picked ryokan with private onsen, kaiseki dining, private drivers and experiences money can't usually buy." },
-      { property: "og:title", content: "Luxury Japan Tours | Nippon Tours" },
-      { property: "og:description", content: "Hand-picked ryokan, private onsen, kaiseki dining and private drivers." },
-      { property: "og:url", content: "/luxury-tours" },
-    ],
-    links: [{ rel: "canonical", href: "/luxury-tours" }],
+ head: () =>
+  seo({
+    title: "Luxury Japan Tours | Premium Travel Experiences",
+    description:
+      "Experience Japan with luxury hotels, private transport, exclusive dining and personalized itineraries.",
+    path: "/luxury-tours",
   }),
   component: () => (
     <CategoryLanding

@@ -65,14 +65,11 @@ export const tourBySlugQueryOptions = (slug: string) =>
   queryOptions({
     queryKey: ["tours", "public", slug],
     queryFn: async (): Promise<Tour | null> => {
-      const { data, error } = await supabase
-        .from("tours")
-        .select("*")
-        .eq("slug", slug)
-        .eq("published", true)
-        .maybeSingle();
-      if (error) throw error;
-      return data ? withBundledTourImage(data as unknown as Tour) : null;
+      const tour = TOURS.find((t) => t.slug === slug);
+
+      if (!tour) return null;
+
+      return withBundledTourImage(tour as unknown as Tour);
     },
   });
 

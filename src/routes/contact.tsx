@@ -1,7 +1,7 @@
 import { seo } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
-import { MessageCircle, Mail, Phone, Clock } from "lucide-react";
-import { SITE } from "@/data/site";
+import { MessageCircle, Mail, Phone, Clock, MapPin } from "lucide-react";
+import { SITE, GLOBAL_OFFICES } from "@/data/site";
 import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 import { InquiryForm } from "@/components/site/InquiryForm";
@@ -89,6 +89,25 @@ function ContactPage() {
             />
           </div>
         </Reveal>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pb-20">
+        <Reveal className="mb-6">
+          <p className="text-xs font-bold uppercase tracking-wider text-accent">Global Offices</p>
+          <h2 className="mt-1 font-display text-xl font-semibold">Our offices around the world</h2>
+        </Reveal>
+        <div className="grid gap-6 sm:grid-cols-2">
+          {GLOBAL_OFFICES.map((office) => (
+            <Reveal key={office.title} className="card-lift flex items-start gap-4 rounded-3xl bg-card p-6">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground"><MapPin className="h-6 w-6" /></span>
+              <span className="min-w-0">
+                <span className="block font-bold">{office.title}</span>
+                {office.company && <span className="mt-0.5 block text-sm text-muted-foreground">{office.company}</span>}
+                <span className="mt-1 block whitespace-pre-line text-sm text-muted-foreground">{office.address}</span>
+              </span>
+            </Reveal>
+          ))}
+        </div>
       </section>
     </>
   );

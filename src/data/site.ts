@@ -3,13 +3,26 @@ export const SITE = {
   tagline: "Japan, crafted around you",
   phoneDisplay: "+81 80-5500-2929",
   whatsapp: "https://wa.me/818055002929?text=Hello",
-  email: "nic@nippon-tours.com",
+  email: "info@nippon-tours.com",
   social: {
     instagram: "https://www.instagram.com/nippontours5/",
     facebook: "https://www.facebook.com/people/Nippon-tours/61571228811021/",
     whatsapp: "https://wa.me/818055002929?text=Hello",
   },
 };
+
+export const GLOBAL_OFFICES = [
+  {
+    title: "Singapore Office",
+    company: "Nippon Global System Singapore Pte Ltd",
+    address: "Paya Lebar Square\nOffice Lobby 1 #06-09/10\n60 Paya Lebar Road\nSingapore 409051",
+  },
+  {
+    title: "Dubai Office",
+    company: null,
+    address: "#73, G Floor\nAl Fahidi Plaza\nSouq Al Kabeer\nDubai",
+  },
+];
 
 export const STATS = [
   { value: 12, suffix: "+", label: "Years of Experience" },

@@ -6,6 +6,8 @@ import heroFujiAsset from "@/assets/hero-fuji.jpg";
 const heroFuji = heroFujiAsset;
 import guideTeamAsset from "@/assets/guide-team.jpg";
 const guideTeam = guideTeamAsset;
+import voyageOneLogoAsset from "@/assets/voyage-one-dmc-logo.png";
+const voyageOneLogo = voyageOneLogoAsset;
 import { DESTINATIONS } from "@/data/destinations";
 import { STATS, TRUST_POINTS, SITE } from "@/data/site";
 import { Reveal, CountUp } from "@/components/site/Reveal";
@@ -85,6 +87,29 @@ function HomePage() {
             <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4" /> Licensed Japanese operator</span>
             <span className="inline-flex items-center gap-2"><Clock className="h-4 w-4" /> Replies in under 1 hour</span>
           </div>
+        </div>
+      </section>
+
+      {/* PARTNER */}
+      <section className="border-b border-border bg-card">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-3 px-6 py-8 text-center sm:flex-row sm:gap-4">
+          <img
+            src={voyageOneLogo}
+            alt="Voyage 1 DMC"
+            width={1818}
+            height={1818}
+            loading="lazy"
+            decoding="async"
+            className="h-14 w-14 shrink-0 object-contain sm:h-16 sm:w-16"
+          />
+          <a
+            href="https://www.voyage-one.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold text-muted-foreground transition-colors hover:text-accent"
+          >
+            www.voyage-one.com
+          </a>
         </div>
       </section>
 

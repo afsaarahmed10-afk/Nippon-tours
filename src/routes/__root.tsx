@@ -115,7 +115,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           image: "https://nippon-tours.com/og-image.jpg",
           areaServed: { "@type": "Country", name: "Japan" },
           telephone: "+81-80-5500-2929",
-          email: "nic@nippon-tours.com",
+          email: "info@nippon-tours.com",
           priceRange: "$$-$$$$",
           address: { "@type": "PostalAddress", addressCountry: "JP" },
           sameAs: [

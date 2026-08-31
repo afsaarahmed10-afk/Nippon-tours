@@ -1,9 +1,9 @@
-// Server-only: reads the Anthropic API key and (optionally) calls Supabase with the
+// Server-only: reads the Groq API key and (optionally) calls Supabase with the
 // anon key. Never import this module from client code — see client.server.ts for the
 // project's convention on *.server.ts files.
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
-import Anthropic from "@anthropic-ai/sdk";
+import Groq from "groq-sdk";
 import { z } from "zod";
 import { TOURS } from "@/data/tours";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,18 +11,18 @@ import { buildSystemPrompt, REAL_TOUR_SLUGS } from "./system-prompt";
 import { checkRateLimit } from "./rate-limit";
 import type { ChatReplyEnvelope, ChatTourSummary } from "./types";
 
-const MODEL = process.env.AI_MODEL || "claude-opus-5";
+const MODEL = process.env.AI_MODEL || "openai/gpt-oss-120b";
 const MAX_MESSAGE_LENGTH = 1000;
 const MAX_HISTORY_TURNS = 10;
 
-let _client: Anthropic | undefined;
-function getClient(): Anthropic {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+let _client: Groq | undefined;
+function getClient(): Groq {
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    throw new Error("Missing ANTHROPIC_API_KEY environment variable. Add it to your .env file.");
+    throw new Error("Missing GROQ_API_KEY environment variable. Add it to your .env file.");
   }
   if (!_client) {
-    _client = new Anthropic({ apiKey, timeout: 15_000, maxRetries: 1 });
+    _client = new Groq({ apiKey, timeout: 15_000, maxRetries: 1 });
   }
   return _client;
 }
@@ -46,61 +46,67 @@ const leadCaptureSchema = z.object({
   notes: z.string().trim().max(2000).optional(),
 });
 
-const RESPOND_TOOL: Anthropic.Tool = {
-  name: "respond_to_traveler",
-  description: "Send a structured reply to the traveler in the Nippon Tours website chat widget.",
-  input_schema: {
-    type: "object",
-    properties: {
-      reply: {
-        type: "string",
-        description:
-          "The conversational reply. 2-6 sentences or a short list. Warm, concise, expert travel-consultant tone.",
+const RESPOND_TOOL_NAME = "respond_to_traveler";
+
+const RESPOND_TOOL: Groq.Chat.Completions.ChatCompletionTool = {
+  type: "function",
+  function: {
+    name: RESPOND_TOOL_NAME,
+    description: "Send a structured reply to the traveler in the Nippon Tours website chat widget.",
+    parameters: {
+      type: "object",
+      properties: {
+        reply: {
+          type: "string",
+          minLength: 1,
+          description:
+            "The conversational reply. Never empty — always include at least one sentence directly answering the traveler, even if a tour/CTA is also attached. 2-6 sentences or a short list. Warm, concise, expert travel-consultant tone.",
+        },
+        quickReplies: {
+          type: "array",
+          items: { type: "string" },
+          maxItems: 4,
+          description:
+            "Up to 4 short, contextual follow-up suggestions the traveler might tap next.",
+        },
+        recommendedTourSlugs: {
+          type: "array",
+          items: { type: "string" },
+          maxItems: 3,
+          description:
+            "Slugs from AVAILABLE TOURS most relevant right now. Empty array if none fit well.",
+        },
+        ctaType: {
+          type: "string",
+          enum: ["plan-trip", "tours", "contact", "none"],
+          description: "Primary call-to-action to show below the reply, or 'none'.",
+        },
+        ctaLabel: {
+          type: "string",
+          description:
+            "Button label for the CTA, e.g. 'Plan My Japan Trip →'. Empty string if ctaType is 'none'.",
+        },
+        leadIntent: {
+          type: "boolean",
+          description:
+            "true if the traveler is showing clear trip-planning/booking intent right now.",
+        },
       },
-      quickReplies: {
-        type: "array",
-        items: { type: "string" },
-        maxItems: 4,
-        description: "Up to 4 short, contextual follow-up suggestions the traveler might tap next.",
-      },
-      recommendedTourSlugs: {
-        type: "array",
-        items: { type: "string" },
-        maxItems: 3,
-        description:
-          "Slugs from AVAILABLE TOURS most relevant right now. Empty array if none fit well.",
-      },
-      ctaType: {
-        type: "string",
-        enum: ["plan-trip", "tours", "contact", "none"],
-        description: "Primary call-to-action to show below the reply, or 'none'.",
-      },
-      ctaLabel: {
-        type: "string",
-        description:
-          "Button label for the CTA, e.g. 'Plan My Japan Trip →'. Empty string if ctaType is 'none'.",
-      },
-      leadIntent: {
-        type: "boolean",
-        description:
-          "true if the traveler is showing clear trip-planning/booking intent right now.",
-      },
+      required: [
+        "reply",
+        "quickReplies",
+        "recommendedTourSlugs",
+        "ctaType",
+        "ctaLabel",
+        "leadIntent",
+      ],
+      additionalProperties: false,
     },
-    required: [
-      "reply",
-      "quickReplies",
-      "recommendedTourSlugs",
-      "ctaType",
-      "ctaLabel",
-      "leadIntent",
-    ],
-    additionalProperties: false,
   },
-  strict: true,
 };
 
 const toolOutputSchema = z.object({
-  reply: z.string(),
+  reply: z.string().trim().min(1),
   quickReplies: z.array(z.string()).max(4),
   recommendedTourSlugs: z.array(z.string()).max(3),
   ctaType: z.enum(["plan-trip", "tours", "contact", "none"]),
@@ -247,8 +253,9 @@ export const sendChatMessage = createServerFn({ method: "POST" })
     }
 
     const recentHistory = data.history.slice(-MAX_HISTORY_TURNS);
-    const messages: Anthropic.MessageParam[] = [
-      ...recentHistory.map((turn): Anthropic.MessageParam => ({
+    const messages: Groq.Chat.Completions.ChatCompletionMessageParam[] = [
+      { role: "system", content: buildSystemPrompt() },
+      ...recentHistory.map((turn): Groq.Chat.Completions.ChatCompletionMessageParam => ({
         role: turn.role,
         content: turn.text,
       })),
@@ -257,27 +264,24 @@ export const sendChatMessage = createServerFn({ method: "POST" })
 
     try {
       const client = getClient();
-      const response = await client.messages.create({
+      const response = await client.chat.completions.create({
         model: MODEL,
-        max_tokens: 1500,
-        system: [{ type: "text", text: buildSystemPrompt(), cache_control: { type: "ephemeral" } }],
+        max_completion_tokens: 1500,
         messages,
         tools: [RESPOND_TOOL],
-        output_config: { effort: "low" },
+        tool_choice: { type: "function", function: { name: RESPOND_TOOL_NAME } },
       });
 
-      const toolUse = response.content.find(
-        (block): block is Anthropic.ToolUseBlock =>
-          block.type === "tool_use" && block.name === "respond_to_traveler",
+      const message = response.choices[0]?.message;
+      const toolCall = message?.tool_calls?.find(
+        (call) => call.function.name === RESPOND_TOOL_NAME,
       );
-      if (!toolUse) {
+
+      if (!toolCall) {
         // The model ignored the tool and replied in plain text — use that text rather
         // than discard it, so the traveler still gets a real answer.
-        const textBlock = response.content.find(
-          (block): block is Anthropic.TextBlock => block.type === "text",
-        );
-        if (textBlock?.text) {
-          const envelope = fallbackEnvelope(textBlock.text);
+        if (message?.content) {
+          const envelope = fallbackEnvelope(message.content);
           void logConversation(data.sessionId, data.message, envelope);
           return envelope;
         }
@@ -286,7 +290,16 @@ export const sendChatMessage = createServerFn({ method: "POST" })
         );
       }
 
-      const parsed = toolOutputSchema.parse(toolUse.input);
+      let rawArgs: unknown;
+      try {
+        rawArgs = JSON.parse(toolCall.function.arguments);
+      } catch {
+        return fallbackEnvelope(
+          "I couldn't quite put a reply together for that — could you try rephrasing, or would you like to talk to Nippon Tours directly?",
+        );
+      }
+
+      const parsed = toolOutputSchema.parse(rawArgs);
       const envelope: ChatReplyEnvelope = {
         reply: parsed.reply,
         quickReplies: parsed.quickReplies,
@@ -302,13 +315,13 @@ export const sendChatMessage = createServerFn({ method: "POST" })
 
       return envelope;
     } catch (error) {
-      console.error("[chatbot] Anthropic request failed:", error);
-      if (error instanceof Anthropic.AuthenticationError) {
+      console.error("[chatbot] Groq request failed:", error);
+      if (error instanceof Groq.AuthenticationError) {
         return fallbackEnvelope(
           "Nippon AI isn't fully set up yet on this site. In the meantime, our travel experts would love to help!",
         );
       }
-      if (error instanceof Anthropic.RateLimitError) {
+      if (error instanceof Groq.RateLimitError) {
         return fallbackEnvelope(
           "I'm getting a lot of questions right now — please try again in a moment.",
         );

@@ -12,6 +12,31 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5"
   }
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       blog_posts: {
@@ -148,6 +173,56 @@ export type Database = {
             columns: ["vehicle_id"]
             isOneToOne: false
             referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chatbot_conversations: {
+        Row: {
+          clicked_contact: boolean
+          clicked_plan_trip: boolean
+          clicked_tours: boolean
+          created_at: string
+          id: string
+          lead_captured: boolean
+          message_count: number
+          session_id: string
+          topics: string[]
+          trip_request_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          clicked_contact?: boolean
+          clicked_plan_trip?: boolean
+          clicked_tours?: boolean
+          created_at?: string
+          id?: string
+          lead_captured?: boolean
+          message_count?: number
+          session_id: string
+          topics?: string[]
+          trip_request_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          clicked_contact?: boolean
+          clicked_plan_trip?: boolean
+          clicked_tours?: boolean
+          created_at?: string
+          id?: string
+          lead_captured?: boolean
+          message_count?: number
+          session_id?: string
+          topics?: string[]
+          trip_request_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chatbot_conversations_trip_request_id_fkey"
+            columns: ["trip_request_id"]
+            isOneToOne: false
+            referencedRelation: "trip_requests"
             referencedColumns: ["id"]
           },
         ]
@@ -915,6 +990,9 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {
       app_role: ["admin", "editor"],

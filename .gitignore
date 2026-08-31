@@ -20,6 +20,16 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Local secrets (Anthropic key, Supabase service role, etc.)
+.env
+.env.local
+
+# Supabase CLI local cache
+supabase/.temp
+
+# Local Claude Code state
+.claude/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

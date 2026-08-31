@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { StickyCTA } from "@/components/site/StickyCTA";
+import { NipponAiChatWidget } from "@/components/chat/NipponAiChatWidget";
 
 function NotFoundComponent() {
   return (
@@ -190,6 +191,7 @@ function RootComponent() {
       </main>
       <Footer />
       <StickyCTA />
+      <NipponAiChatWidget />
     </QueryClientProvider>
   );
 }

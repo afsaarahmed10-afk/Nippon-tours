@@ -66,7 +66,7 @@ export function ChatPanel({
 
   const submit = () => {
     const trimmed = input.trim();
-    if (!trimmed) return;
+    if (!trimmed || isTyping) return;
     onSend(trimmed);
     setInput("");
   };

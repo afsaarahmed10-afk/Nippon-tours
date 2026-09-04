@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, useParams } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Clock } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
@@ -152,7 +152,7 @@ export function PostNotFound({ locale }: { locale: Locale }) {
 }
 
 export function PostPage({ locale }: { locale: Locale }) {
-  const { slug } = Route.useParams();
+  const { slug } = useParams({ strict: false }) as { slug: string };
   const { data: post } = useSuspenseQuery(blogPostBySlugQueryOptions(slug, locale));
   const { data: allPosts } = useSuspenseQuery(blogPostsQueryOptions(locale));
   const c = COPY[locale];

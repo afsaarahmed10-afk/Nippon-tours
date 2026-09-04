@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, useLoaderData } from "@tanstack/react-router";
 import { Clock } from "lucide-react";
 import { getGuide, localizeGuide, type Guide } from "@/data/guides";
 import { Reveal } from "@/components/site/Reveal";
@@ -109,7 +109,7 @@ export function GuideNotFound({ locale }: { locale: Locale }) {
 }
 
 export function GuidePage({ locale }: { locale: Locale }) {
-  const { guide: rawGuide } = Route.useLoaderData() as { guide: Guide };
+  const { guide: rawGuide } = useLoaderData({ strict: false }) as { guide: Guide };
   const guide = localizeGuide(rawGuide, locale);
   const c = COPY[locale];
   const related = RELATED_SLUGS.filter((s) => s !== guide.slug)

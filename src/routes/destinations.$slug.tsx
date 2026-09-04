@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, useLoaderData } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Calendar, CloudSun, Lightbulb, MapPin } from "lucide-react";
 import { getDestination, localizeDestination, type Destination } from "@/data/destinations";
@@ -144,7 +144,7 @@ export function DestinationNotFound({ locale }: { locale: Locale }) {
 
 export function DestinationPage({ locale }: { locale: Locale }) {
   const c = COPY[locale];
-  const { dest: rawDest } = Route.useLoaderData() as { dest: Destination };
+  const { dest: rawDest } = useLoaderData({ strict: false }) as { dest: Destination };
   const dest = localizeDestination(rawDest, locale);
   const { data: allTours } = useSuspenseQuery(toursQueryOptions(locale));
   const related = allTours.filter((t) => dest.relatedTours.includes(t.slug));

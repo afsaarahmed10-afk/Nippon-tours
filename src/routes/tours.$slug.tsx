@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, useParams } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Star, Clock, Users, Check, ShieldCheck } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
@@ -168,7 +168,7 @@ export function TourNotFound({ locale }: { locale: Locale }) {
 
 export function TourPage({ locale }: { locale: Locale }) {
   const c = COPY[locale];
-  const { slug } = Route.useParams();
+  const { slug } = useParams({ strict: false }) as { slug: string };
   const { data: tour } = useSuspenseQuery(tourBySlugQueryOptions(slug, locale));
   if (!tour) return null;
 

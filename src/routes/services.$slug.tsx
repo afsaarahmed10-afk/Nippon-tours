@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, useLoaderData } from "@tanstack/react-router";
 import { Check, MessageCircle, Mail } from "lucide-react";
 import { PageHero, SectionHeading, CTABand } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
@@ -129,7 +129,7 @@ export function ServiceNotFound({ locale }: { locale: Locale }) {
 
 export function ServicePage({ locale }: { locale: Locale }) {
   const c = COPY[locale];
-  const rawService = Route.useLoaderData();
+  const rawService = useLoaderData({ strict: false }) as ServicePage;
   const service = localizeService(rawService, locale);
   const related = SERVICES.filter((s) => s.slug !== service.slug && s.category === service.category)
     .map((s) => localizeService(s, locale))

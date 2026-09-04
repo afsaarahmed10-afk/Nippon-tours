@@ -25,6 +25,7 @@ export const Route = createFileRoute("/_authenticated/admin/testimonials")({
           { key: "source", label: "Source (Google, Tripadvisor…)", type: "text" },
           { key: "rating", label: "Rating (1–5)", type: "number" },
           { key: "quote", label: "Quote", type: "textarea", rows: 4, required: true },
+          { key: "quote_ja", label: "Quote (Japanese)", type: "textarea", rows: 4 },
           { key: "tour", label: "Tour taken", type: "text" },
           { key: "sort_order", label: "Sort order", type: "number" },
           { key: "featured", label: "Featured", type: "boolean" },

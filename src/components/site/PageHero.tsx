@@ -1,6 +1,7 @@
-import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/site/Reveal";
+import { LocaleLink } from "@/components/site/LocaleLink";
+import { useCommon } from "@/i18n";
 
 export function PageHero({
   label,
@@ -61,21 +62,16 @@ export function SectionHeading({
   );
 }
 
-export function CTABand({
-  title = "Ready to start planning?",
-  subtitle = "Tell us your dates and dreams — get a free, personalised itinerary within 48 hours.",
-}: {
-  title?: string;
-  subtitle?: string;
-}) {
+export function CTABand({ title, subtitle }: { title?: string; subtitle?: string }) {
+  const t = useCommon();
   return (
     <section className="bg-ink py-16 text-center text-ink-foreground">
       <Reveal className="mx-auto max-w-2xl px-6">
-        <h2 className="font-display text-3xl font-semibold sm:text-4xl">{title}</h2>
-        <p className="mt-4 text-lg text-ink-foreground/70">{subtitle}</p>
+        <h2 className="font-display text-3xl font-semibold sm:text-4xl">{title ?? t.ctaBand.title}</h2>
+        <p className="mt-4 text-lg text-ink-foreground/70">{subtitle ?? t.ctaBand.subtitle}</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link to="/plan-my-trip" className="btn-accent">Plan My Trip — Free</Link>
-          <Link to="/contact" className="btn-light">Book a Call</Link>
+          <LocaleLink to="/plan-my-trip" className="btn-accent">{t.common.planMyTripFree}</LocaleLink>
+          <LocaleLink to="/contact" className="btn-light">{t.common.bookACall}</LocaleLink>
         </div>
       </Reveal>
     </section>

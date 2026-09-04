@@ -11,6 +11,8 @@ export const SITE = {
   },
 };
 
+// Company names/addresses are factual and stay unchanged across locales — only the
+// "Office" label is translated. See GLOBAL_OFFICES_JA below for the Japanese labels.
 export const GLOBAL_OFFICES = [
   {
     title: "Singapore Office",
@@ -24,11 +26,31 @@ export const GLOBAL_OFFICES = [
   },
 ];
 
+export const GLOBAL_OFFICES_JA = [
+  {
+    title: "シンガポールオフィス",
+    company: "Nippon Global System Singapore Pte Ltd",
+    address: "Paya Lebar Square\nOffice Lobby 1 #06-09/10\n60 Paya Lebar Road\nSingapore 409051",
+  },
+  {
+    title: "ドバイオフィス",
+    company: null,
+    address: "#73, G Floor\nAl Fahidi Plaza\nSouq Al Kabeer\nDubai",
+  },
+];
+
 export const STATS = [
   { value: 12, suffix: "+", label: "Years of Experience" },
   { value: 4800, suffix: "+", label: "Tours Completed" },
   { value: 40, suffix: "+", label: "Countries Served" },
   { value: 99, suffix: "%", label: "Customer Satisfaction" },
+];
+
+export const STATS_JA = [
+  { value: 12, suffix: "年以上", label: "の実績" },
+  { value: 4800, suffix: "件以上", label: "の催行実績" },
+  { value: 40, suffix: "ヶ国以上", label: "からのお客様" },
+  { value: 99, suffix: "%", label: "の顧客満足度" },
 ];
 
 export const TESTIMONIALS = [
@@ -103,11 +125,40 @@ export const TEAM = [
   },
 ];
 
+// Names and initials are proper nouns and stay unchanged — only role/bio are translated.
+export const TEAM_JA = [
+  {
+    name: "Kenji Watanabe",
+    role: "創業者 兼 リードガイド",
+    bio: "京都生まれ。15年にわたり日本各地を旅行者と巡ってきた国家資格ガイド。利き酒師の資格も持ち、阪神タイガースの熱狂的なファン。",
+    initials: "KW",
+  },
+  {
+    name: "Yuki Tanaka",
+    role: "シニア・ツアーデザイナー",
+    bio: "東京・銀座のホテルコンシェルジュ出身。定番の見どころと、地元の人に愛される街角の魅力を絶妙に組み合わせた旅程づくりが得意。",
+    initials: "YT",
+  },
+  {
+    name: "Mei Kobayashi",
+    role: "ゲストエクスペリエンス・マネージャー",
+    bio: "24時間サポート窓口の顔。英語・中国語・日本語を流暢に話し、質問が終わる前に答えが返ってくるほどのスピード対応が持ち味。",
+    initials: "MK",
+  },
+];
+
 export const TRUST_POINTS = [
   { title: "Licensed & Registered", desc: "Fully registered Japanese travel operator with licensed national guides." },
   { title: "Replies in Under 1 Hour", desc: "Average first response time during business hours — usually minutes on WhatsApp." },
   { title: "Free Cancellation", desc: "Cancel up to 14 days before departure for a full refund on most tours." },
   { title: "Secure Payments", desc: "Pay safely by Visa, Mastercard, Amex, PayPal or bank transfer." },
+];
+
+export const TRUST_POINTS_JA = [
+  { title: "認可・登録済み事業者", desc: "国家資格を持つガイドが在籍する、正式に登録された日本の旅行会社です。" },
+  { title: "1時間以内の返信", desc: "営業時間内の平均初回返信時間。WhatsAppなら数分でお返事することがほとんどです。" },
+  { title: "無料キャンセル", desc: "出発の14日前までなら、ほとんどのツアーが無料でキャンセル・全額返金可能です。" },
+  { title: "安全な決済", desc: "Visa、Mastercard、Amex、PayPal、銀行振込にて安全にお支払いいただけます。" },
 ];
 
 export const GENERAL_FAQS = [

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Minus, Send, X } from "lucide-react";
 import { ChatMessageBubble } from "./ChatMessageBubble";
 import { ChatLeadForm } from "./ChatLeadForm";
+import { useCommon } from "@/i18n";
 import type { ChatMessage } from "@/lib/chat/types";
 
 function TypingIndicator() {
@@ -59,6 +60,7 @@ export function ChatPanel({
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const lastIndex = messages.length - 1;
+  const t = useCommon().chat;
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -75,14 +77,14 @@ export function ChatPanel({
     <div className="flex h-full flex-col overflow-hidden rounded-t-3xl bg-card sm:rounded-3xl">
       <div className="flex items-center justify-between bg-ink px-5 py-4 text-ink-foreground sm:rounded-t-3xl">
         <div>
-          <p className="font-display text-base font-semibold">Nippon AI 🇯🇵</p>
-          <p className="text-xs text-ink-foreground/70">Your Japan Travel Assistant</p>
+          <p className="font-display text-base font-semibold">{t.label} 🇯🇵</p>
+          <p className="text-xs text-ink-foreground/70">{t.subtitle}</p>
         </div>
         <div className="flex items-center gap-1">
           <button
             type="button"
             onClick={onMinimize}
-            aria-label="Minimize chat"
+            aria-label={t.minimizeAria}
             className="grid h-8 w-8 place-items-center rounded-full text-ink-foreground/80 hover:bg-white/10 hover:text-ink-foreground"
           >
             <Minus className="h-4 w-4" />
@@ -90,7 +92,7 @@ export function ChatPanel({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close chat"
+            aria-label={t.closeAria}
             className="grid h-8 w-8 place-items-center rounded-full text-ink-foreground/80 hover:bg-white/10 hover:text-ink-foreground"
           >
             <X className="h-4 w-4" />
@@ -124,7 +126,7 @@ export function ChatPanel({
             onKeyDown={(e) => {
               if (e.key === "Enter") submit();
             }}
-            placeholder="Ask me anything about Japan..."
+            placeholder={t.inputPlaceholder}
             maxLength={1000}
             className="min-w-0 flex-1 rounded-full border border-input bg-background px-4 py-2.5 text-sm focus:border-accent focus:outline-none focus:ring-2 focus:ring-ring/30"
           />
@@ -132,7 +134,7 @@ export function ChatPanel({
             type="button"
             onClick={submit}
             disabled={!input.trim() || isTyping}
-            aria-label="Send message"
+            aria-label={t.sendAria}
             className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-accent text-accent-foreground transition-transform hover:scale-105 disabled:opacity-40 disabled:hover:scale-100"
           >
             <Send className="h-4 w-4" />

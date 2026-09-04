@@ -43,52 +43,67 @@ export type Database = {
         Row: {
           author: string | null
           body: string
+          body_ja: string | null
           category: string | null
           cover_image: string | null
           created_at: string
           excerpt: string | null
+          excerpt_ja: string | null
           id: string
           published: boolean
           published_at: string | null
           seo_description: string | null
+          seo_description_ja: string | null
           seo_title: string | null
+          seo_title_ja: string | null
           slug: string
           tags: Json
           title: string
+          title_ja: string | null
           updated_at: string
         }
         Insert: {
           author?: string | null
           body?: string
+          body_ja?: string | null
           category?: string | null
           cover_image?: string | null
           created_at?: string
           excerpt?: string | null
+          excerpt_ja?: string | null
           id?: string
           published?: boolean
           published_at?: string | null
           seo_description?: string | null
+          seo_description_ja?: string | null
           seo_title?: string | null
+          seo_title_ja?: string | null
           slug: string
           tags?: Json
           title: string
+          title_ja?: string | null
           updated_at?: string
         }
         Update: {
           author?: string | null
           body?: string
+          body_ja?: string | null
           category?: string | null
           cover_image?: string | null
           created_at?: string
           excerpt?: string | null
+          excerpt_ja?: string | null
           id?: string
           published?: boolean
           published_at?: string | null
           seo_description?: string | null
+          seo_description_ja?: string | null
           seo_title?: string | null
+          seo_title_ja?: string | null
           slug?: string
           tags?: Json
           title?: string
+          title_ja?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -272,8 +287,10 @@ export type Database = {
       destinations: {
         Row: {
           best_season: string | null
+          best_season_ja: string | null
           created_at: string
           description: string | null
+          description_ja: string | null
           featured: boolean
           gallery: Json
           hero_image: string | null
@@ -281,22 +298,32 @@ export type Database = {
           map_lat: number | null
           map_lng: number | null
           name: string
+          name_ja: string | null
           nearby_attractions: Json
+          nearby_attractions_ja: Json
           published: boolean
           region: string | null
+          region_ja: string | null
           seo_description: string | null
+          seo_description_ja: string | null
           seo_title: string | null
+          seo_title_ja: string | null
           slug: string
           sort_order: number
           summary: string | null
+          summary_ja: string | null
           tagline: string | null
+          tagline_ja: string | null
           updated_at: string
           weather: string | null
+          weather_ja: string | null
         }
         Insert: {
           best_season?: string | null
+          best_season_ja?: string | null
           created_at?: string
           description?: string | null
+          description_ja?: string | null
           featured?: boolean
           gallery?: Json
           hero_image?: string | null
@@ -304,22 +331,32 @@ export type Database = {
           map_lat?: number | null
           map_lng?: number | null
           name: string
+          name_ja?: string | null
           nearby_attractions?: Json
+          nearby_attractions_ja?: Json
           published?: boolean
           region?: string | null
+          region_ja?: string | null
           seo_description?: string | null
+          seo_description_ja?: string | null
           seo_title?: string | null
+          seo_title_ja?: string | null
           slug: string
           sort_order?: number
           summary?: string | null
+          summary_ja?: string | null
           tagline?: string | null
+          tagline_ja?: string | null
           updated_at?: string
           weather?: string | null
+          weather_ja?: string | null
         }
         Update: {
           best_season?: string | null
+          best_season_ja?: string | null
           created_at?: string
           description?: string | null
+          description_ja?: string | null
           featured?: boolean
           gallery?: Json
           hero_image?: string | null
@@ -327,48 +364,62 @@ export type Database = {
           map_lat?: number | null
           map_lng?: number | null
           name?: string
+          name_ja?: string | null
           nearby_attractions?: Json
+          nearby_attractions_ja?: Json
           published?: boolean
           region?: string | null
+          region_ja?: string | null
           seo_description?: string | null
+          seo_description_ja?: string | null
           seo_title?: string | null
+          seo_title_ja?: string | null
           slug?: string
           sort_order?: number
           summary?: string | null
+          summary_ja?: string | null
           tagline?: string | null
+          tagline_ja?: string | null
           updated_at?: string
           weather?: string | null
+          weather_ja?: string | null
         }
         Relationships: []
       }
       faqs: {
         Row: {
           answer: string
+          answer_ja: string | null
           category: string | null
           created_at: string
           id: string
           published: boolean
           question: string
+          question_ja: string | null
           sort_order: number
           updated_at: string
         }
         Insert: {
           answer: string
+          answer_ja?: string | null
           category?: string | null
           created_at?: string
           id?: string
           published?: boolean
           question: string
+          question_ja?: string | null
           sort_order?: number
           updated_at?: string
         }
         Update: {
           answer?: string
+          answer_ja?: string | null
           category?: string | null
           created_at?: string
           id?: string
           published?: boolean
           question?: string
+          question_ja?: string | null
           sort_order?: number
           updated_at?: string
         }
@@ -452,6 +503,7 @@ export type Database = {
       reviews: {
         Row: {
           comment: string
+          comment_ja: string | null
           country: string | null
           created_at: string
           email: string | null
@@ -465,6 +517,7 @@ export type Database = {
         }
         Insert: {
           comment: string
+          comment_ja?: string | null
           country?: string | null
           created_at?: string
           email?: string | null
@@ -478,6 +531,7 @@ export type Database = {
         }
         Update: {
           comment?: string
+          comment_ja?: string | null
           country?: string | null
           created_at?: string
           email?: string | null
@@ -543,6 +597,7 @@ export type Database = {
           name: string
           published: boolean
           quote: string
+          quote_ja: string | null
           rating: number
           sort_order: number
           source: string | null
@@ -557,6 +612,7 @@ export type Database = {
           name: string
           published?: boolean
           quote: string
+          quote_ja?: string | null
           rating?: number
           sort_order?: number
           source?: string | null
@@ -571,6 +627,7 @@ export type Database = {
           name?: string
           published?: boolean
           quote?: string
+          quote_ja?: string | null
           rating?: number
           sort_order?: number
           source?: string | null
@@ -779,6 +836,7 @@ export type Database = {
           airport_pickup: boolean
           created_at: string
           description: string | null
+          description_ja: string | null
           driver_included: boolean
           featured: boolean
           fuel_type: string | null
@@ -801,6 +859,7 @@ export type Database = {
           airport_pickup?: boolean
           created_at?: string
           description?: string | null
+          description_ja?: string | null
           driver_included?: boolean
           featured?: boolean
           fuel_type?: string | null
@@ -823,6 +882,7 @@ export type Database = {
           airport_pickup?: boolean
           created_at?: string
           description?: string | null
+          description_ja?: string | null
           driver_included?: boolean
           featured?: boolean
           fuel_type?: string | null

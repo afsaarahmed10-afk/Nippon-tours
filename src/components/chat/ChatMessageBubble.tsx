@@ -1,24 +1,25 @@
-import { Link } from "@tanstack/react-router";
 import { Clock, RotateCw } from "lucide-react";
 import { SITE } from "@/data/site";
 import { formatJPY } from "@/lib/utils";
 import { renderChatText } from "@/lib/chat/format";
+import { LocaleLink } from "@/components/site/LocaleLink";
+import { useCommon } from "@/i18n";
 import type { ChatCta, ChatMessage, ChatTourSummary } from "@/lib/chat/types";
 
 function CtaButton({ cta }: { cta: ChatCta }) {
   if (cta.type === "none") return null;
   if (cta.type === "plan-trip") {
     return (
-      <Link to="/plan-my-trip" className="btn-accent !px-4 !py-2 text-xs">
+      <LocaleLink to="/plan-my-trip" className="btn-accent !px-4 !py-2 text-xs">
         {cta.label}
-      </Link>
+      </LocaleLink>
     );
   }
   if (cta.type === "tours") {
     return (
-      <Link to="/tours" className="btn-accent !px-4 !py-2 text-xs">
+      <LocaleLink to="/tours" className="btn-accent !px-4 !py-2 text-xs">
         {cta.label}
-      </Link>
+      </LocaleLink>
     );
   }
   return (
@@ -35,7 +36,7 @@ function CtaButton({ cta }: { cta: ChatCta }) {
 
 function TourMiniCard({ tour }: { tour: ChatTourSummary }) {
   return (
-    <Link
+    <LocaleLink
       to="/tours/$slug"
       params={{ slug: tour.slug }}
       className="flex items-center gap-3 rounded-2xl border border-border bg-card p-2.5 transition-colors hover:border-accent/60"
@@ -59,7 +60,7 @@ function TourMiniCard({ tour }: { tour: ChatTourSummary }) {
           <span className="font-semibold text-accent">{formatJPY(tour.price)}pp</span>
         </p>
       </div>
-    </Link>
+    </LocaleLink>
   );
 }
 
@@ -74,6 +75,7 @@ export function ChatMessageBubble({
   onQuickReply: (text: string) => void;
   onRetry: () => void;
 }) {
+  const t = useCommon().chat;
   const isUser = message.role === "user";
 
   if (isUser) {
@@ -91,7 +93,7 @@ export function ChatMessageBubble({
           {renderChatText(message.text)}
         </div>
         <button type="button" onClick={onRetry} className="btn-outline !px-3 !py-1.5 text-xs">
-          <RotateCw className="h-3 w-3" /> Retry
+          <RotateCw className="h-3 w-3" /> {t.retry}
         </button>
       </div>
     );
@@ -116,7 +118,7 @@ export function ChatMessageBubble({
       {envelope && envelope.tours.length > 0 && (
         <div className="ml-9 space-y-2">
           <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-            Recommended for you
+            {t.recommendedForYou}
           </p>
           {envelope.tours.map((tour) => (
             <TourMiniCard key={tour.slug} tour={tour} />

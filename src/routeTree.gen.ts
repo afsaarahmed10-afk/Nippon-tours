@@ -31,18 +31,47 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as TravelGuidesIndexRouteImport } from './routes/travel-guides.index'
 import { Route as ToursIndexRouteImport } from './routes/tours.index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as JaIndexRouteImport } from './routes/ja/index'
 import { Route as DestinationsIndexRouteImport } from './routes/destinations.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as TravelGuidesSlugRouteImport } from './routes/travel-guides.$slug'
 import { Route as ToursSlugRouteImport } from './routes/tours.$slug'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as JaTermsRouteImport } from './routes/ja/terms'
+import { Route as JaSignupRouteImport } from './routes/ja/signup'
+import { Route as JaSeasonalExperiencesRouteImport } from './routes/ja/seasonal-experiences'
+import { Route as JaReviewsRouteImport } from './routes/ja/reviews'
+import { Route as JaResetPasswordRouteImport } from './routes/ja/reset-password'
+import { Route as JaPrivateToursRouteImport } from './routes/ja/private-tours'
+import { Route as JaPrivacyRouteImport } from './routes/ja/privacy'
+import { Route as JaPlanMyTripRouteImport } from './routes/ja/plan-my-trip'
+import { Route as JaLuxuryToursRouteImport } from './routes/ja/luxury-tours'
+import { Route as JaLoginRouteImport } from './routes/ja/login'
+import { Route as JaGroupToursRouteImport } from './routes/ja/group-tours'
+import { Route as JaForgotPasswordRouteImport } from './routes/ja/forgot-password'
+import { Route as JaFaqsRouteImport } from './routes/ja/faqs'
+import { Route as JaContactRouteImport } from './routes/ja/contact'
+import { Route as JaAuthRouteImport } from './routes/ja/auth'
+import { Route as JaAboutRouteImport } from './routes/ja/about'
 import { Route as DestinationsSlugRouteImport } from './routes/destinations.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as JaAuthenticatedRouteRouteImport } from './routes/ja/_authenticated/route'
+import { Route as JaTravelGuidesIndexRouteImport } from './routes/ja/travel-guides.index'
+import { Route as JaToursIndexRouteImport } from './routes/ja/tours.index'
+import { Route as JaServicesIndexRouteImport } from './routes/ja/services.index'
+import { Route as JaDestinationsIndexRouteImport } from './routes/ja/destinations.index'
+import { Route as JaBlogIndexRouteImport } from './routes/ja/blog.index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as JaTravelGuidesSlugRouteImport } from './routes/ja/travel-guides.$slug'
+import { Route as JaToursSlugRouteImport } from './routes/ja/tours.$slug'
+import { Route as JaServicesSlugRouteImport } from './routes/ja/services.$slug'
+import { Route as JaDestinationsSlugRouteImport } from './routes/ja/destinations.$slug'
+import { Route as JaBlogSlugRouteImport } from './routes/ja/blog.$slug'
+import { Route as JaAuthenticatedDashboardRouteImport } from './routes/ja/_authenticated/dashboard'
 import { Route as AuthenticatedDashboardTripRequestsRouteImport } from './routes/_authenticated/dashboard.trip-requests'
 import { Route as AuthenticatedDashboardSavedToursRouteImport } from './routes/_authenticated/dashboard.saved-tours'
 import { Route as AuthenticatedDashboardProfileRouteImport } from './routes/_authenticated/dashboard.profile'
@@ -62,6 +91,15 @@ import { Route as AuthenticatedAdminDestinationsRouteImport } from './routes/_au
 import { Route as AuthenticatedAdminCustomersRouteImport } from './routes/_authenticated/admin.customers'
 import { Route as AuthenticatedAdminCarRentalRequestsRouteImport } from './routes/_authenticated/admin.car-rental-requests'
 import { Route as AuthenticatedAdminBlogRouteImport } from './routes/_authenticated/admin.blog'
+import { Route as JaAuthenticatedDashboardIndexRouteImport } from './routes/ja/_authenticated/dashboard.index'
+import { Route as JaAuthenticatedDashboardTripRequestsRouteImport } from './routes/ja/_authenticated/dashboard.trip-requests'
+import { Route as JaAuthenticatedDashboardSavedToursRouteImport } from './routes/ja/_authenticated/dashboard.saved-tours'
+import { Route as JaAuthenticatedDashboardProfileRouteImport } from './routes/ja/_authenticated/dashboard.profile'
+import { Route as JaAuthenticatedDashboardNotificationsRouteImport } from './routes/ja/_authenticated/dashboard.notifications'
+import { Route as JaAuthenticatedDashboardMessagesRouteImport } from './routes/ja/_authenticated/dashboard.messages'
+import { Route as JaAuthenticatedDashboardFavouritesRouteImport } from './routes/ja/_authenticated/dashboard.favourites'
+import { Route as JaAuthenticatedDashboardChangePasswordRouteImport } from './routes/ja/_authenticated/dashboard.change-password'
+import { Route as JaAuthenticatedDashboardBookingsRouteImport } from './routes/ja/_authenticated/dashboard.bookings'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -172,6 +210,11 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/services/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JaIndexRoute = JaIndexRouteImport.update({
+  id: '/ja/',
+  path: '/ja/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DestinationsIndexRoute = DestinationsIndexRouteImport.update({
   id: '/destinations/',
   path: '/destinations/',
@@ -195,6 +238,86 @@ const ToursSlugRoute = ToursSlugRouteImport.update({
 const ServicesSlugRoute = ServicesSlugRouteImport.update({
   id: '/services/$slug',
   path: '/services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaTermsRoute = JaTermsRouteImport.update({
+  id: '/ja/terms',
+  path: '/ja/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaSignupRoute = JaSignupRouteImport.update({
+  id: '/ja/signup',
+  path: '/ja/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaSeasonalExperiencesRoute = JaSeasonalExperiencesRouteImport.update({
+  id: '/ja/seasonal-experiences',
+  path: '/ja/seasonal-experiences',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaReviewsRoute = JaReviewsRouteImport.update({
+  id: '/ja/reviews',
+  path: '/ja/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaResetPasswordRoute = JaResetPasswordRouteImport.update({
+  id: '/ja/reset-password',
+  path: '/ja/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaPrivateToursRoute = JaPrivateToursRouteImport.update({
+  id: '/ja/private-tours',
+  path: '/ja/private-tours',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaPrivacyRoute = JaPrivacyRouteImport.update({
+  id: '/ja/privacy',
+  path: '/ja/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaPlanMyTripRoute = JaPlanMyTripRouteImport.update({
+  id: '/ja/plan-my-trip',
+  path: '/ja/plan-my-trip',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaLuxuryToursRoute = JaLuxuryToursRouteImport.update({
+  id: '/ja/luxury-tours',
+  path: '/ja/luxury-tours',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaLoginRoute = JaLoginRouteImport.update({
+  id: '/ja/login',
+  path: '/ja/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaGroupToursRoute = JaGroupToursRouteImport.update({
+  id: '/ja/group-tours',
+  path: '/ja/group-tours',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaForgotPasswordRoute = JaForgotPasswordRouteImport.update({
+  id: '/ja/forgot-password',
+  path: '/ja/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaFaqsRoute = JaFaqsRouteImport.update({
+  id: '/ja/faqs',
+  path: '/ja/faqs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaContactRoute = JaContactRouteImport.update({
+  id: '/ja/contact',
+  path: '/ja/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaAuthRoute = JaAuthRouteImport.update({
+  id: '/ja/auth',
+  path: '/ja/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaAboutRoute = JaAboutRouteImport.update({
+  id: '/ja/about',
+  path: '/ja/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DestinationsSlugRoute = DestinationsSlugRouteImport.update({
@@ -222,6 +345,36 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const JaAuthenticatedRouteRoute = JaAuthenticatedRouteRouteImport.update({
+  id: '/ja/_authenticated',
+  path: '/ja',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaTravelGuidesIndexRoute = JaTravelGuidesIndexRouteImport.update({
+  id: '/ja/travel-guides/',
+  path: '/ja/travel-guides/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaToursIndexRoute = JaToursIndexRouteImport.update({
+  id: '/ja/tours/',
+  path: '/ja/tours/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaServicesIndexRoute = JaServicesIndexRouteImport.update({
+  id: '/ja/services/',
+  path: '/ja/services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaDestinationsIndexRoute = JaDestinationsIndexRouteImport.update({
+  id: '/ja/destinations/',
+  path: '/ja/destinations/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaBlogIndexRoute = JaBlogIndexRouteImport.update({
+  id: '/ja/blog/',
+  path: '/ja/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedDashboardIndexRoute =
   AuthenticatedDashboardIndexRouteImport.update({
     id: '/',
@@ -233,6 +386,37 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const JaTravelGuidesSlugRoute = JaTravelGuidesSlugRouteImport.update({
+  id: '/ja/travel-guides/$slug',
+  path: '/ja/travel-guides/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaToursSlugRoute = JaToursSlugRouteImport.update({
+  id: '/ja/tours/$slug',
+  path: '/ja/tours/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaServicesSlugRoute = JaServicesSlugRouteImport.update({
+  id: '/ja/services/$slug',
+  path: '/ja/services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaDestinationsSlugRoute = JaDestinationsSlugRouteImport.update({
+  id: '/ja/destinations/$slug',
+  path: '/ja/destinations/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaBlogSlugRoute = JaBlogSlugRouteImport.update({
+  id: '/ja/blog/$slug',
+  path: '/ja/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JaAuthenticatedDashboardRoute =
+  JaAuthenticatedDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => JaAuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardTripRequestsRoute =
   AuthenticatedDashboardTripRequestsRouteImport.update({
     id: '/trip-requests',
@@ -344,6 +528,60 @@ const AuthenticatedAdminBlogRoute = AuthenticatedAdminBlogRouteImport.update({
   path: '/blog',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const JaAuthenticatedDashboardIndexRoute =
+  JaAuthenticatedDashboardIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => JaAuthenticatedDashboardRoute,
+  } as any)
+const JaAuthenticatedDashboardTripRequestsRoute =
+  JaAuthenticatedDashboardTripRequestsRouteImport.update({
+    id: '/trip-requests',
+    path: '/trip-requests',
+    getParentRoute: () => JaAuthenticatedDashboardRoute,
+  } as any)
+const JaAuthenticatedDashboardSavedToursRoute =
+  JaAuthenticatedDashboardSavedToursRouteImport.update({
+    id: '/saved-tours',
+    path: '/saved-tours',
+    getParentRoute: () => JaAuthenticatedDashboardRoute,
+  } as any)
+const JaAuthenticatedDashboardProfileRoute =
+  JaAuthenticatedDashboardProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => JaAuthenticatedDashboardRoute,
+  } as any)
+const JaAuthenticatedDashboardNotificationsRoute =
+  JaAuthenticatedDashboardNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => JaAuthenticatedDashboardRoute,
+  } as any)
+const JaAuthenticatedDashboardMessagesRoute =
+  JaAuthenticatedDashboardMessagesRouteImport.update({
+    id: '/messages',
+    path: '/messages',
+    getParentRoute: () => JaAuthenticatedDashboardRoute,
+  } as any)
+const JaAuthenticatedDashboardFavouritesRoute =
+  JaAuthenticatedDashboardFavouritesRouteImport.update({
+    id: '/favourites',
+    path: '/favourites',
+    getParentRoute: () => JaAuthenticatedDashboardRoute,
+  } as any)
+const JaAuthenticatedDashboardChangePasswordRoute =
+  JaAuthenticatedDashboardChangePasswordRouteImport.update({
+    id: '/change-password',
+    path: '/change-password',
+    getParentRoute: () => JaAuthenticatedDashboardRoute,
+  } as any)
+const JaAuthenticatedDashboardBookingsRoute =
+  JaAuthenticatedDashboardBookingsRouteImport.update({
+    id: '/bookings',
+    path: '/bookings',
+    getParentRoute: () => JaAuthenticatedDashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -364,16 +602,34 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/ja': typeof JaAuthenticatedRouteRouteWithChildren
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
+  '/ja/about': typeof JaAboutRoute
+  '/ja/auth': typeof JaAuthRoute
+  '/ja/contact': typeof JaContactRoute
+  '/ja/faqs': typeof JaFaqsRoute
+  '/ja/forgot-password': typeof JaForgotPasswordRoute
+  '/ja/group-tours': typeof JaGroupToursRoute
+  '/ja/login': typeof JaLoginRoute
+  '/ja/luxury-tours': typeof JaLuxuryToursRoute
+  '/ja/plan-my-trip': typeof JaPlanMyTripRoute
+  '/ja/privacy': typeof JaPrivacyRoute
+  '/ja/private-tours': typeof JaPrivateToursRoute
+  '/ja/reset-password': typeof JaResetPasswordRoute
+  '/ja/reviews': typeof JaReviewsRoute
+  '/ja/seasonal-experiences': typeof JaSeasonalExperiencesRoute
+  '/ja/signup': typeof JaSignupRoute
+  '/ja/terms': typeof JaTermsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/travel-guides/$slug': typeof TravelGuidesSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/destinations/': typeof DestinationsIndexRoute
+  '/ja/': typeof JaIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/tours/': typeof ToursIndexRoute
   '/travel-guides/': typeof TravelGuidesIndexRoute
@@ -396,8 +652,28 @@ export interface FileRoutesByFullPath {
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/dashboard/saved-tours': typeof AuthenticatedDashboardSavedToursRoute
   '/dashboard/trip-requests': typeof AuthenticatedDashboardTripRequestsRoute
+  '/ja/dashboard': typeof JaAuthenticatedDashboardRouteWithChildren
+  '/ja/blog/$slug': typeof JaBlogSlugRoute
+  '/ja/destinations/$slug': typeof JaDestinationsSlugRoute
+  '/ja/services/$slug': typeof JaServicesSlugRoute
+  '/ja/tours/$slug': typeof JaToursSlugRoute
+  '/ja/travel-guides/$slug': typeof JaTravelGuidesSlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/ja/blog/': typeof JaBlogIndexRoute
+  '/ja/destinations/': typeof JaDestinationsIndexRoute
+  '/ja/services/': typeof JaServicesIndexRoute
+  '/ja/tours/': typeof JaToursIndexRoute
+  '/ja/travel-guides/': typeof JaTravelGuidesIndexRoute
+  '/ja/dashboard/bookings': typeof JaAuthenticatedDashboardBookingsRoute
+  '/ja/dashboard/change-password': typeof JaAuthenticatedDashboardChangePasswordRoute
+  '/ja/dashboard/favourites': typeof JaAuthenticatedDashboardFavouritesRoute
+  '/ja/dashboard/messages': typeof JaAuthenticatedDashboardMessagesRoute
+  '/ja/dashboard/notifications': typeof JaAuthenticatedDashboardNotificationsRoute
+  '/ja/dashboard/profile': typeof JaAuthenticatedDashboardProfileRoute
+  '/ja/dashboard/saved-tours': typeof JaAuthenticatedDashboardSavedToursRoute
+  '/ja/dashboard/trip-requests': typeof JaAuthenticatedDashboardTripRequestsRoute
+  '/ja/dashboard/': typeof JaAuthenticatedDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -418,9 +694,26 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/ja': typeof JaIndexRoute
   '/admin/login': typeof AdminLoginRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
+  '/ja/about': typeof JaAboutRoute
+  '/ja/auth': typeof JaAuthRoute
+  '/ja/contact': typeof JaContactRoute
+  '/ja/faqs': typeof JaFaqsRoute
+  '/ja/forgot-password': typeof JaForgotPasswordRoute
+  '/ja/group-tours': typeof JaGroupToursRoute
+  '/ja/login': typeof JaLoginRoute
+  '/ja/luxury-tours': typeof JaLuxuryToursRoute
+  '/ja/plan-my-trip': typeof JaPlanMyTripRoute
+  '/ja/privacy': typeof JaPrivacyRoute
+  '/ja/private-tours': typeof JaPrivateToursRoute
+  '/ja/reset-password': typeof JaResetPasswordRoute
+  '/ja/reviews': typeof JaReviewsRoute
+  '/ja/seasonal-experiences': typeof JaSeasonalExperiencesRoute
+  '/ja/signup': typeof JaSignupRoute
+  '/ja/terms': typeof JaTermsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/travel-guides/$slug': typeof TravelGuidesSlugRoute
@@ -448,8 +741,27 @@ export interface FileRoutesByTo {
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/dashboard/saved-tours': typeof AuthenticatedDashboardSavedToursRoute
   '/dashboard/trip-requests': typeof AuthenticatedDashboardTripRequestsRoute
+  '/ja/blog/$slug': typeof JaBlogSlugRoute
+  '/ja/destinations/$slug': typeof JaDestinationsSlugRoute
+  '/ja/services/$slug': typeof JaServicesSlugRoute
+  '/ja/tours/$slug': typeof JaToursSlugRoute
+  '/ja/travel-guides/$slug': typeof JaTravelGuidesSlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/ja/blog': typeof JaBlogIndexRoute
+  '/ja/destinations': typeof JaDestinationsIndexRoute
+  '/ja/services': typeof JaServicesIndexRoute
+  '/ja/tours': typeof JaToursIndexRoute
+  '/ja/travel-guides': typeof JaTravelGuidesIndexRoute
+  '/ja/dashboard/bookings': typeof JaAuthenticatedDashboardBookingsRoute
+  '/ja/dashboard/change-password': typeof JaAuthenticatedDashboardChangePasswordRoute
+  '/ja/dashboard/favourites': typeof JaAuthenticatedDashboardFavouritesRoute
+  '/ja/dashboard/messages': typeof JaAuthenticatedDashboardMessagesRoute
+  '/ja/dashboard/notifications': typeof JaAuthenticatedDashboardNotificationsRoute
+  '/ja/dashboard/profile': typeof JaAuthenticatedDashboardProfileRoute
+  '/ja/dashboard/saved-tours': typeof JaAuthenticatedDashboardSavedToursRoute
+  '/ja/dashboard/trip-requests': typeof JaAuthenticatedDashboardTripRequestsRoute
+  '/ja/dashboard': typeof JaAuthenticatedDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -472,16 +784,34 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/ja/_authenticated': typeof JaAuthenticatedRouteRouteWithChildren
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
+  '/ja/about': typeof JaAboutRoute
+  '/ja/auth': typeof JaAuthRoute
+  '/ja/contact': typeof JaContactRoute
+  '/ja/faqs': typeof JaFaqsRoute
+  '/ja/forgot-password': typeof JaForgotPasswordRoute
+  '/ja/group-tours': typeof JaGroupToursRoute
+  '/ja/login': typeof JaLoginRoute
+  '/ja/luxury-tours': typeof JaLuxuryToursRoute
+  '/ja/plan-my-trip': typeof JaPlanMyTripRoute
+  '/ja/privacy': typeof JaPrivacyRoute
+  '/ja/private-tours': typeof JaPrivateToursRoute
+  '/ja/reset-password': typeof JaResetPasswordRoute
+  '/ja/reviews': typeof JaReviewsRoute
+  '/ja/seasonal-experiences': typeof JaSeasonalExperiencesRoute
+  '/ja/signup': typeof JaSignupRoute
+  '/ja/terms': typeof JaTermsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/travel-guides/$slug': typeof TravelGuidesSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/destinations/': typeof DestinationsIndexRoute
+  '/ja/': typeof JaIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/tours/': typeof ToursIndexRoute
   '/travel-guides/': typeof TravelGuidesIndexRoute
@@ -504,8 +834,28 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/_authenticated/dashboard/saved-tours': typeof AuthenticatedDashboardSavedToursRoute
   '/_authenticated/dashboard/trip-requests': typeof AuthenticatedDashboardTripRequestsRoute
+  '/ja/_authenticated/dashboard': typeof JaAuthenticatedDashboardRouteWithChildren
+  '/ja/blog/$slug': typeof JaBlogSlugRoute
+  '/ja/destinations/$slug': typeof JaDestinationsSlugRoute
+  '/ja/services/$slug': typeof JaServicesSlugRoute
+  '/ja/tours/$slug': typeof JaToursSlugRoute
+  '/ja/travel-guides/$slug': typeof JaTravelGuidesSlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/ja/blog/': typeof JaBlogIndexRoute
+  '/ja/destinations/': typeof JaDestinationsIndexRoute
+  '/ja/services/': typeof JaServicesIndexRoute
+  '/ja/tours/': typeof JaToursIndexRoute
+  '/ja/travel-guides/': typeof JaTravelGuidesIndexRoute
+  '/ja/_authenticated/dashboard/bookings': typeof JaAuthenticatedDashboardBookingsRoute
+  '/ja/_authenticated/dashboard/change-password': typeof JaAuthenticatedDashboardChangePasswordRoute
+  '/ja/_authenticated/dashboard/favourites': typeof JaAuthenticatedDashboardFavouritesRoute
+  '/ja/_authenticated/dashboard/messages': typeof JaAuthenticatedDashboardMessagesRoute
+  '/ja/_authenticated/dashboard/notifications': typeof JaAuthenticatedDashboardNotificationsRoute
+  '/ja/_authenticated/dashboard/profile': typeof JaAuthenticatedDashboardProfileRoute
+  '/ja/_authenticated/dashboard/saved-tours': typeof JaAuthenticatedDashboardSavedToursRoute
+  '/ja/_authenticated/dashboard/trip-requests': typeof JaAuthenticatedDashboardTripRequestsRoute
+  '/ja/_authenticated/dashboard/': typeof JaAuthenticatedDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -528,16 +878,34 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/terms'
+    | '/ja'
     | '/admin'
     | '/dashboard'
     | '/admin/login'
     | '/blog/$slug'
     | '/destinations/$slug'
+    | '/ja/about'
+    | '/ja/auth'
+    | '/ja/contact'
+    | '/ja/faqs'
+    | '/ja/forgot-password'
+    | '/ja/group-tours'
+    | '/ja/login'
+    | '/ja/luxury-tours'
+    | '/ja/plan-my-trip'
+    | '/ja/privacy'
+    | '/ja/private-tours'
+    | '/ja/reset-password'
+    | '/ja/reviews'
+    | '/ja/seasonal-experiences'
+    | '/ja/signup'
+    | '/ja/terms'
     | '/services/$slug'
     | '/tours/$slug'
     | '/travel-guides/$slug'
     | '/blog/'
     | '/destinations/'
+    | '/ja/'
     | '/services/'
     | '/tours/'
     | '/travel-guides/'
@@ -560,8 +928,28 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/dashboard/saved-tours'
     | '/dashboard/trip-requests'
+    | '/ja/dashboard'
+    | '/ja/blog/$slug'
+    | '/ja/destinations/$slug'
+    | '/ja/services/$slug'
+    | '/ja/tours/$slug'
+    | '/ja/travel-guides/$slug'
     | '/admin/'
     | '/dashboard/'
+    | '/ja/blog/'
+    | '/ja/destinations/'
+    | '/ja/services/'
+    | '/ja/tours/'
+    | '/ja/travel-guides/'
+    | '/ja/dashboard/bookings'
+    | '/ja/dashboard/change-password'
+    | '/ja/dashboard/favourites'
+    | '/ja/dashboard/messages'
+    | '/ja/dashboard/notifications'
+    | '/ja/dashboard/profile'
+    | '/ja/dashboard/saved-tours'
+    | '/ja/dashboard/trip-requests'
+    | '/ja/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -582,9 +970,26 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/terms'
+    | '/ja'
     | '/admin/login'
     | '/blog/$slug'
     | '/destinations/$slug'
+    | '/ja/about'
+    | '/ja/auth'
+    | '/ja/contact'
+    | '/ja/faqs'
+    | '/ja/forgot-password'
+    | '/ja/group-tours'
+    | '/ja/login'
+    | '/ja/luxury-tours'
+    | '/ja/plan-my-trip'
+    | '/ja/privacy'
+    | '/ja/private-tours'
+    | '/ja/reset-password'
+    | '/ja/reviews'
+    | '/ja/seasonal-experiences'
+    | '/ja/signup'
+    | '/ja/terms'
     | '/services/$slug'
     | '/tours/$slug'
     | '/travel-guides/$slug'
@@ -612,8 +1017,27 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/dashboard/saved-tours'
     | '/dashboard/trip-requests'
+    | '/ja/blog/$slug'
+    | '/ja/destinations/$slug'
+    | '/ja/services/$slug'
+    | '/ja/tours/$slug'
+    | '/ja/travel-guides/$slug'
     | '/admin'
     | '/dashboard'
+    | '/ja/blog'
+    | '/ja/destinations'
+    | '/ja/services'
+    | '/ja/tours'
+    | '/ja/travel-guides'
+    | '/ja/dashboard/bookings'
+    | '/ja/dashboard/change-password'
+    | '/ja/dashboard/favourites'
+    | '/ja/dashboard/messages'
+    | '/ja/dashboard/notifications'
+    | '/ja/dashboard/profile'
+    | '/ja/dashboard/saved-tours'
+    | '/ja/dashboard/trip-requests'
+    | '/ja/dashboard'
   id:
     | '__root__'
     | '/'
@@ -635,16 +1059,34 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/terms'
+    | '/ja/_authenticated'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/admin/login'
     | '/blog/$slug'
     | '/destinations/$slug'
+    | '/ja/about'
+    | '/ja/auth'
+    | '/ja/contact'
+    | '/ja/faqs'
+    | '/ja/forgot-password'
+    | '/ja/group-tours'
+    | '/ja/login'
+    | '/ja/luxury-tours'
+    | '/ja/plan-my-trip'
+    | '/ja/privacy'
+    | '/ja/private-tours'
+    | '/ja/reset-password'
+    | '/ja/reviews'
+    | '/ja/seasonal-experiences'
+    | '/ja/signup'
+    | '/ja/terms'
     | '/services/$slug'
     | '/tours/$slug'
     | '/travel-guides/$slug'
     | '/blog/'
     | '/destinations/'
+    | '/ja/'
     | '/services/'
     | '/tours/'
     | '/travel-guides/'
@@ -667,8 +1109,28 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/profile'
     | '/_authenticated/dashboard/saved-tours'
     | '/_authenticated/dashboard/trip-requests'
+    | '/ja/_authenticated/dashboard'
+    | '/ja/blog/$slug'
+    | '/ja/destinations/$slug'
+    | '/ja/services/$slug'
+    | '/ja/tours/$slug'
+    | '/ja/travel-guides/$slug'
     | '/_authenticated/admin/'
     | '/_authenticated/dashboard/'
+    | '/ja/blog/'
+    | '/ja/destinations/'
+    | '/ja/services/'
+    | '/ja/tours/'
+    | '/ja/travel-guides/'
+    | '/ja/_authenticated/dashboard/bookings'
+    | '/ja/_authenticated/dashboard/change-password'
+    | '/ja/_authenticated/dashboard/favourites'
+    | '/ja/_authenticated/dashboard/messages'
+    | '/ja/_authenticated/dashboard/notifications'
+    | '/ja/_authenticated/dashboard/profile'
+    | '/ja/_authenticated/dashboard/saved-tours'
+    | '/ja/_authenticated/dashboard/trip-requests'
+    | '/ja/_authenticated/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -691,17 +1153,45 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  JaAuthenticatedRouteRoute: typeof JaAuthenticatedRouteRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   BlogSlugRoute: typeof BlogSlugRoute
   DestinationsSlugRoute: typeof DestinationsSlugRoute
+  JaAboutRoute: typeof JaAboutRoute
+  JaAuthRoute: typeof JaAuthRoute
+  JaContactRoute: typeof JaContactRoute
+  JaFaqsRoute: typeof JaFaqsRoute
+  JaForgotPasswordRoute: typeof JaForgotPasswordRoute
+  JaGroupToursRoute: typeof JaGroupToursRoute
+  JaLoginRoute: typeof JaLoginRoute
+  JaLuxuryToursRoute: typeof JaLuxuryToursRoute
+  JaPlanMyTripRoute: typeof JaPlanMyTripRoute
+  JaPrivacyRoute: typeof JaPrivacyRoute
+  JaPrivateToursRoute: typeof JaPrivateToursRoute
+  JaResetPasswordRoute: typeof JaResetPasswordRoute
+  JaReviewsRoute: typeof JaReviewsRoute
+  JaSeasonalExperiencesRoute: typeof JaSeasonalExperiencesRoute
+  JaSignupRoute: typeof JaSignupRoute
+  JaTermsRoute: typeof JaTermsRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   ToursSlugRoute: typeof ToursSlugRoute
   TravelGuidesSlugRoute: typeof TravelGuidesSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
   DestinationsIndexRoute: typeof DestinationsIndexRoute
+  JaIndexRoute: typeof JaIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
   ToursIndexRoute: typeof ToursIndexRoute
   TravelGuidesIndexRoute: typeof TravelGuidesIndexRoute
+  JaBlogSlugRoute: typeof JaBlogSlugRoute
+  JaDestinationsSlugRoute: typeof JaDestinationsSlugRoute
+  JaServicesSlugRoute: typeof JaServicesSlugRoute
+  JaToursSlugRoute: typeof JaToursSlugRoute
+  JaTravelGuidesSlugRoute: typeof JaTravelGuidesSlugRoute
+  JaBlogIndexRoute: typeof JaBlogIndexRoute
+  JaDestinationsIndexRoute: typeof JaDestinationsIndexRoute
+  JaServicesIndexRoute: typeof JaServicesIndexRoute
+  JaToursIndexRoute: typeof JaToursIndexRoute
+  JaTravelGuidesIndexRoute: typeof JaTravelGuidesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -860,6 +1350,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ja/': {
+      id: '/ja/'
+      path: '/ja'
+      fullPath: '/ja/'
+      preLoaderRoute: typeof JaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/destinations/': {
       id: '/destinations/'
       path: '/destinations'
@@ -893,6 +1390,118 @@ declare module '@tanstack/react-router' {
       path: '/services/$slug'
       fullPath: '/services/$slug'
       preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/terms': {
+      id: '/ja/terms'
+      path: '/ja/terms'
+      fullPath: '/ja/terms'
+      preLoaderRoute: typeof JaTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/signup': {
+      id: '/ja/signup'
+      path: '/ja/signup'
+      fullPath: '/ja/signup'
+      preLoaderRoute: typeof JaSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/seasonal-experiences': {
+      id: '/ja/seasonal-experiences'
+      path: '/ja/seasonal-experiences'
+      fullPath: '/ja/seasonal-experiences'
+      preLoaderRoute: typeof JaSeasonalExperiencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/reviews': {
+      id: '/ja/reviews'
+      path: '/ja/reviews'
+      fullPath: '/ja/reviews'
+      preLoaderRoute: typeof JaReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/reset-password': {
+      id: '/ja/reset-password'
+      path: '/ja/reset-password'
+      fullPath: '/ja/reset-password'
+      preLoaderRoute: typeof JaResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/private-tours': {
+      id: '/ja/private-tours'
+      path: '/ja/private-tours'
+      fullPath: '/ja/private-tours'
+      preLoaderRoute: typeof JaPrivateToursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/privacy': {
+      id: '/ja/privacy'
+      path: '/ja/privacy'
+      fullPath: '/ja/privacy'
+      preLoaderRoute: typeof JaPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/plan-my-trip': {
+      id: '/ja/plan-my-trip'
+      path: '/ja/plan-my-trip'
+      fullPath: '/ja/plan-my-trip'
+      preLoaderRoute: typeof JaPlanMyTripRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/luxury-tours': {
+      id: '/ja/luxury-tours'
+      path: '/ja/luxury-tours'
+      fullPath: '/ja/luxury-tours'
+      preLoaderRoute: typeof JaLuxuryToursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/login': {
+      id: '/ja/login'
+      path: '/ja/login'
+      fullPath: '/ja/login'
+      preLoaderRoute: typeof JaLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/group-tours': {
+      id: '/ja/group-tours'
+      path: '/ja/group-tours'
+      fullPath: '/ja/group-tours'
+      preLoaderRoute: typeof JaGroupToursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/forgot-password': {
+      id: '/ja/forgot-password'
+      path: '/ja/forgot-password'
+      fullPath: '/ja/forgot-password'
+      preLoaderRoute: typeof JaForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/faqs': {
+      id: '/ja/faqs'
+      path: '/ja/faqs'
+      fullPath: '/ja/faqs'
+      preLoaderRoute: typeof JaFaqsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/contact': {
+      id: '/ja/contact'
+      path: '/ja/contact'
+      fullPath: '/ja/contact'
+      preLoaderRoute: typeof JaContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/auth': {
+      id: '/ja/auth'
+      path: '/ja/auth'
+      fullPath: '/ja/auth'
+      preLoaderRoute: typeof JaAuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/about': {
+      id: '/ja/about'
+      path: '/ja/about'
+      fullPath: '/ja/about'
+      preLoaderRoute: typeof JaAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/destinations/$slug': {
@@ -930,6 +1539,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/ja/_authenticated': {
+      id: '/ja/_authenticated'
+      path: '/ja'
+      fullPath: '/ja'
+      preLoaderRoute: typeof JaAuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/travel-guides/': {
+      id: '/ja/travel-guides/'
+      path: '/ja/travel-guides'
+      fullPath: '/ja/travel-guides/'
+      preLoaderRoute: typeof JaTravelGuidesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/tours/': {
+      id: '/ja/tours/'
+      path: '/ja/tours'
+      fullPath: '/ja/tours/'
+      preLoaderRoute: typeof JaToursIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/services/': {
+      id: '/ja/services/'
+      path: '/ja/services'
+      fullPath: '/ja/services/'
+      preLoaderRoute: typeof JaServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/destinations/': {
+      id: '/ja/destinations/'
+      path: '/ja/destinations'
+      fullPath: '/ja/destinations/'
+      preLoaderRoute: typeof JaDestinationsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/blog/': {
+      id: '/ja/blog/'
+      path: '/ja/blog'
+      fullPath: '/ja/blog/'
+      preLoaderRoute: typeof JaBlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/dashboard/': {
       id: '/_authenticated/dashboard/'
       path: '/'
@@ -943,6 +1594,48 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/ja/travel-guides/$slug': {
+      id: '/ja/travel-guides/$slug'
+      path: '/ja/travel-guides/$slug'
+      fullPath: '/ja/travel-guides/$slug'
+      preLoaderRoute: typeof JaTravelGuidesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/tours/$slug': {
+      id: '/ja/tours/$slug'
+      path: '/ja/tours/$slug'
+      fullPath: '/ja/tours/$slug'
+      preLoaderRoute: typeof JaToursSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/services/$slug': {
+      id: '/ja/services/$slug'
+      path: '/ja/services/$slug'
+      fullPath: '/ja/services/$slug'
+      preLoaderRoute: typeof JaServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/destinations/$slug': {
+      id: '/ja/destinations/$slug'
+      path: '/ja/destinations/$slug'
+      fullPath: '/ja/destinations/$slug'
+      preLoaderRoute: typeof JaDestinationsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/blog/$slug': {
+      id: '/ja/blog/$slug'
+      path: '/ja/blog/$slug'
+      fullPath: '/ja/blog/$slug'
+      preLoaderRoute: typeof JaBlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ja/_authenticated/dashboard': {
+      id: '/ja/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/ja/dashboard'
+      preLoaderRoute: typeof JaAuthenticatedDashboardRouteImport
+      parentRoute: typeof JaAuthenticatedRouteRoute
     }
     '/_authenticated/dashboard/trip-requests': {
       id: '/_authenticated/dashboard/trip-requests'
@@ -1077,6 +1770,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminBlogRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/ja/_authenticated/dashboard/': {
+      id: '/ja/_authenticated/dashboard/'
+      path: '/'
+      fullPath: '/ja/dashboard/'
+      preLoaderRoute: typeof JaAuthenticatedDashboardIndexRouteImport
+      parentRoute: typeof JaAuthenticatedDashboardRoute
+    }
+    '/ja/_authenticated/dashboard/trip-requests': {
+      id: '/ja/_authenticated/dashboard/trip-requests'
+      path: '/trip-requests'
+      fullPath: '/ja/dashboard/trip-requests'
+      preLoaderRoute: typeof JaAuthenticatedDashboardTripRequestsRouteImport
+      parentRoute: typeof JaAuthenticatedDashboardRoute
+    }
+    '/ja/_authenticated/dashboard/saved-tours': {
+      id: '/ja/_authenticated/dashboard/saved-tours'
+      path: '/saved-tours'
+      fullPath: '/ja/dashboard/saved-tours'
+      preLoaderRoute: typeof JaAuthenticatedDashboardSavedToursRouteImport
+      parentRoute: typeof JaAuthenticatedDashboardRoute
+    }
+    '/ja/_authenticated/dashboard/profile': {
+      id: '/ja/_authenticated/dashboard/profile'
+      path: '/profile'
+      fullPath: '/ja/dashboard/profile'
+      preLoaderRoute: typeof JaAuthenticatedDashboardProfileRouteImport
+      parentRoute: typeof JaAuthenticatedDashboardRoute
+    }
+    '/ja/_authenticated/dashboard/notifications': {
+      id: '/ja/_authenticated/dashboard/notifications'
+      path: '/notifications'
+      fullPath: '/ja/dashboard/notifications'
+      preLoaderRoute: typeof JaAuthenticatedDashboardNotificationsRouteImport
+      parentRoute: typeof JaAuthenticatedDashboardRoute
+    }
+    '/ja/_authenticated/dashboard/messages': {
+      id: '/ja/_authenticated/dashboard/messages'
+      path: '/messages'
+      fullPath: '/ja/dashboard/messages'
+      preLoaderRoute: typeof JaAuthenticatedDashboardMessagesRouteImport
+      parentRoute: typeof JaAuthenticatedDashboardRoute
+    }
+    '/ja/_authenticated/dashboard/favourites': {
+      id: '/ja/_authenticated/dashboard/favourites'
+      path: '/favourites'
+      fullPath: '/ja/dashboard/favourites'
+      preLoaderRoute: typeof JaAuthenticatedDashboardFavouritesRouteImport
+      parentRoute: typeof JaAuthenticatedDashboardRoute
+    }
+    '/ja/_authenticated/dashboard/change-password': {
+      id: '/ja/_authenticated/dashboard/change-password'
+      path: '/change-password'
+      fullPath: '/ja/dashboard/change-password'
+      preLoaderRoute: typeof JaAuthenticatedDashboardChangePasswordRouteImport
+      parentRoute: typeof JaAuthenticatedDashboardRoute
+    }
+    '/ja/_authenticated/dashboard/bookings': {
+      id: '/ja/_authenticated/dashboard/bookings'
+      path: '/bookings'
+      fullPath: '/ja/dashboard/bookings'
+      preLoaderRoute: typeof JaAuthenticatedDashboardBookingsRouteImport
+      parentRoute: typeof JaAuthenticatedDashboardRoute
+    }
   }
 }
 
@@ -1162,6 +1918,54 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface JaAuthenticatedDashboardRouteChildren {
+  JaAuthenticatedDashboardBookingsRoute: typeof JaAuthenticatedDashboardBookingsRoute
+  JaAuthenticatedDashboardChangePasswordRoute: typeof JaAuthenticatedDashboardChangePasswordRoute
+  JaAuthenticatedDashboardFavouritesRoute: typeof JaAuthenticatedDashboardFavouritesRoute
+  JaAuthenticatedDashboardMessagesRoute: typeof JaAuthenticatedDashboardMessagesRoute
+  JaAuthenticatedDashboardNotificationsRoute: typeof JaAuthenticatedDashboardNotificationsRoute
+  JaAuthenticatedDashboardProfileRoute: typeof JaAuthenticatedDashboardProfileRoute
+  JaAuthenticatedDashboardSavedToursRoute: typeof JaAuthenticatedDashboardSavedToursRoute
+  JaAuthenticatedDashboardTripRequestsRoute: typeof JaAuthenticatedDashboardTripRequestsRoute
+  JaAuthenticatedDashboardIndexRoute: typeof JaAuthenticatedDashboardIndexRoute
+}
+
+const JaAuthenticatedDashboardRouteChildren: JaAuthenticatedDashboardRouteChildren =
+  {
+    JaAuthenticatedDashboardBookingsRoute:
+      JaAuthenticatedDashboardBookingsRoute,
+    JaAuthenticatedDashboardChangePasswordRoute:
+      JaAuthenticatedDashboardChangePasswordRoute,
+    JaAuthenticatedDashboardFavouritesRoute:
+      JaAuthenticatedDashboardFavouritesRoute,
+    JaAuthenticatedDashboardMessagesRoute:
+      JaAuthenticatedDashboardMessagesRoute,
+    JaAuthenticatedDashboardNotificationsRoute:
+      JaAuthenticatedDashboardNotificationsRoute,
+    JaAuthenticatedDashboardProfileRoute: JaAuthenticatedDashboardProfileRoute,
+    JaAuthenticatedDashboardSavedToursRoute:
+      JaAuthenticatedDashboardSavedToursRoute,
+    JaAuthenticatedDashboardTripRequestsRoute:
+      JaAuthenticatedDashboardTripRequestsRoute,
+    JaAuthenticatedDashboardIndexRoute: JaAuthenticatedDashboardIndexRoute,
+  }
+
+const JaAuthenticatedDashboardRouteWithChildren =
+  JaAuthenticatedDashboardRoute._addFileChildren(
+    JaAuthenticatedDashboardRouteChildren,
+  )
+
+interface JaAuthenticatedRouteRouteChildren {
+  JaAuthenticatedDashboardRoute: typeof JaAuthenticatedDashboardRouteWithChildren
+}
+
+const JaAuthenticatedRouteRouteChildren: JaAuthenticatedRouteRouteChildren = {
+  JaAuthenticatedDashboardRoute: JaAuthenticatedDashboardRouteWithChildren,
+}
+
+const JaAuthenticatedRouteRouteWithChildren =
+  JaAuthenticatedRouteRoute._addFileChildren(JaAuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -1182,17 +1986,45 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  JaAuthenticatedRouteRoute: JaAuthenticatedRouteRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   BlogSlugRoute: BlogSlugRoute,
   DestinationsSlugRoute: DestinationsSlugRoute,
+  JaAboutRoute: JaAboutRoute,
+  JaAuthRoute: JaAuthRoute,
+  JaContactRoute: JaContactRoute,
+  JaFaqsRoute: JaFaqsRoute,
+  JaForgotPasswordRoute: JaForgotPasswordRoute,
+  JaGroupToursRoute: JaGroupToursRoute,
+  JaLoginRoute: JaLoginRoute,
+  JaLuxuryToursRoute: JaLuxuryToursRoute,
+  JaPlanMyTripRoute: JaPlanMyTripRoute,
+  JaPrivacyRoute: JaPrivacyRoute,
+  JaPrivateToursRoute: JaPrivateToursRoute,
+  JaResetPasswordRoute: JaResetPasswordRoute,
+  JaReviewsRoute: JaReviewsRoute,
+  JaSeasonalExperiencesRoute: JaSeasonalExperiencesRoute,
+  JaSignupRoute: JaSignupRoute,
+  JaTermsRoute: JaTermsRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   ToursSlugRoute: ToursSlugRoute,
   TravelGuidesSlugRoute: TravelGuidesSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
   DestinationsIndexRoute: DestinationsIndexRoute,
+  JaIndexRoute: JaIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
   ToursIndexRoute: ToursIndexRoute,
   TravelGuidesIndexRoute: TravelGuidesIndexRoute,
+  JaBlogSlugRoute: JaBlogSlugRoute,
+  JaDestinationsSlugRoute: JaDestinationsSlugRoute,
+  JaServicesSlugRoute: JaServicesSlugRoute,
+  JaToursSlugRoute: JaToursSlugRoute,
+  JaTravelGuidesSlugRoute: JaTravelGuidesSlugRoute,
+  JaBlogIndexRoute: JaBlogIndexRoute,
+  JaDestinationsIndexRoute: JaDestinationsIndexRoute,
+  JaServicesIndexRoute: JaServicesIndexRoute,
+  JaToursIndexRoute: JaToursIndexRoute,
+  JaTravelGuidesIndexRoute: JaTravelGuidesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,9 +1,11 @@
 import { Bot, MessageSquareText } from "lucide-react";
 import { useNipponChat } from "@/hooks/useNipponChat";
+import { useCommon } from "@/i18n";
 import { ChatPanel } from "./ChatPanel";
 
 export function NipponAiChatWidget() {
   const chat = useNipponChat();
+  const t = useCommon().chat;
 
   return (
     <>
@@ -11,7 +13,7 @@ export function NipponAiChatWidget() {
         <button
           type="button"
           onClick={chat.open}
-          aria-label="Open Nippon AI travel assistant"
+          aria-label={t.openAria}
           className="fixed bottom-40 right-4 z-50 grid h-14 w-14 place-items-center rounded-full bg-accent text-accent-foreground shadow-lg transition-transform hover:scale-105 lg:bottom-24 lg:right-8"
           style={{ boxShadow: "var(--shadow-accent)" }}
         >
@@ -26,7 +28,7 @@ export function NipponAiChatWidget() {
           className="fixed bottom-40 right-4 z-50 flex items-center gap-2 rounded-full bg-ink px-4 py-3 text-ink-foreground shadow-lg transition-transform hover:scale-105 lg:bottom-24 lg:right-8"
         >
           <MessageSquareText className="h-4 w-4" />
-          <span className="text-sm font-semibold">Nippon AI</span>
+          <span className="text-sm font-semibold">{t.label}</span>
         </button>
       )}
 

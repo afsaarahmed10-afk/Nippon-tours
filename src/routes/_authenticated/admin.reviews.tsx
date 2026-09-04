@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminPage } from "@/components/admin/AdminShell";
 import { toast } from "sonner";
-import { Star, Check, X, Trash2 } from "lucide-react";
+import { Star, Check, X, Trash2, Languages } from "lucide-react";
 import { adminReviewsOptions } from "@/lib/queries";
 import type { Review } from "@/lib/db-types";
 
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/_authenticated/admin/reviews")({
 function ReviewsAdmin() {
   const qc = useQueryClient();
   const { data: rows = [], isLoading } = useQuery(adminReviewsOptions());
+  const [translating, setTranslating] = useState<Record<string, string>>({});
 
   const invalidate = () => {
     qc.invalidateQueries({ queryKey: ["reviews"] });
@@ -26,6 +28,23 @@ function ReviewsAdmin() {
     },
     onSuccess: () => {
       toast.success("Review updated");
+      invalidate();
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const saveTranslation = useMutation({
+    mutationFn: async ({ id, comment_ja }: { id: string; comment_ja: string }) => {
+      const { error } = await supabase.from("reviews").update({ comment_ja }).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: (_data, vars) => {
+      toast.success("Japanese translation saved");
+      setTranslating((prev) => {
+        const next = { ...prev };
+        delete next[vars.id];
+        return next;
+      });
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -96,6 +115,23 @@ function ReviewsAdmin() {
                     <X className="h-4 w-4" />
                   </button>
                   <button
+                    onClick={() =>
+                      setTranslating((prev) =>
+                        prev[r.id] !== undefined
+                          ? (() => {
+                              const next = { ...prev };
+                              delete next[r.id];
+                              return next;
+                            })()
+                          : { ...prev, [r.id]: r.comment_ja ?? "" },
+                      )
+                    }
+                    className={`grid h-9 w-9 place-items-center rounded-lg hover:bg-accent/10 hover:text-accent ${r.comment_ja ? "bg-accent/10 text-accent" : "text-muted-foreground"}`}
+                    title="Add/edit Japanese translation"
+                  >
+                    <Languages className="h-4 w-4" />
+                  </button>
+                  <button
                     onClick={() => {
                       if (confirm("Delete this review permanently?")) remove.mutate(r.id);
                     }}
@@ -107,6 +143,31 @@ function ReviewsAdmin() {
                 </div>
               </div>
               <p className="mt-3 whitespace-pre-line text-sm leading-relaxed">{r.comment}</p>
+              {translating[r.id] !== undefined ? (
+                <div className="mt-3 space-y-2 rounded-xl border border-accent/30 bg-secondary/40 p-3">
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Japanese translation
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={translating[r.id]}
+                    onChange={(e) => setTranslating((prev) => ({ ...prev, [r.id]: e.target.value }))}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:border-accent focus:outline-none"
+                    placeholder="日本語訳を入力してください"
+                  />
+                  <button
+                    onClick={() => saveTranslation.mutate({ id: r.id, comment_ja: translating[r.id] })}
+                    disabled={saveTranslation.isPending}
+                    className="btn-accent !px-4 !py-1.5 text-xs disabled:opacity-60"
+                  >
+                    Save translation
+                  </button>
+                </div>
+              ) : r.comment_ja ? (
+                <p className="mt-3 whitespace-pre-line rounded-xl bg-secondary/40 p-3 text-sm leading-relaxed text-muted-foreground">
+                  🇯🇵 {r.comment_ja}
+                </p>
+              ) : null}
             </li>
           ))}
         </ul>

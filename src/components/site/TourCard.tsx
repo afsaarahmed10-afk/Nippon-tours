@@ -1,11 +1,13 @@
-import { Link } from "@tanstack/react-router";
 import { Star, Clock, Users } from "lucide-react";
 import type { Tour } from "@/lib/db-types";
 import { formatJPY } from "@/lib/utils";
+import { LocaleLink } from "@/components/site/LocaleLink";
+import { useCommon } from "@/i18n";
 
 export function TourCard({ tour, priority = false }: { tour: Tour; priority?: boolean }) {
+  const t = useCommon().common;
   return (
-    <Link
+    <LocaleLink
       to="/tours/$slug"
       params={{ slug: tour.slug }}
       className="card-lift img-zoom group flex flex-col overflow-hidden rounded-3xl bg-card"
@@ -36,19 +38,19 @@ export function TourCard({ tour, priority = false }: { tour: Tour; priority?: bo
         </h3>
         <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{tour.summary}</p>
         <div className="mt-4 flex items-center gap-4 text-xs font-semibold text-muted-foreground">
-          <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {tour.days} {tour.days === 1 ? "day" : "days"}</span>
+          <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {tour.days} {tour.days === 1 ? t.day : t.days}</span>
           {tour.group_size && (
             <span className="inline-flex items-center gap-1"><Users className="h-3.5 w-3.5" /> {tour.group_size}</span>
           )}
         </div>
         <div className="mt-4 flex items-end justify-between border-t border-border pt-4">
           <p className="text-sm text-muted-foreground">
-            From <span className="font-display text-xl font-bold text-foreground">{formatJPY(tour.price)}</span>
-            <span className="text-xs"> /person</span>
+            {t.from} <span className="font-display text-xl font-bold text-foreground">{formatJPY(tour.price)}</span>
+            <span className="text-xs"> {t.perPerson}</span>
           </p>
-          <span className="text-sm font-bold text-accent">View tour →</span>
+          <span className="text-sm font-bold text-accent">{t.viewTour}</span>
         </div>
       </div>
-    </Link>
+    </LocaleLink>
   );
 }

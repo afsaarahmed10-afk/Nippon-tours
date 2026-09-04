@@ -1,5 +1,6 @@
-import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { LocaleLink } from "@/components/site/LocaleLink";
+import { useCommon } from "@/i18n";
 import logoAsset from "@/assets/nippon-tours-logo.png";
 
 export function AuthCard({
@@ -13,18 +14,19 @@ export function AuthCard({
   children: ReactNode;
   footer?: ReactNode;
 }) {
+  const t = useCommon();
   return (
     <div className="grid min-h-screen place-items-center bg-secondary px-4 py-16">
       <div className="w-full max-w-md rounded-3xl bg-card p-8 shadow-xl">
-        <Link to="/" className="mb-8 flex items-center justify-center gap-3">
+        <LocaleLink to="/" className="mb-8 flex items-center justify-center gap-3">
           <img src={logoAsset} alt="Nippon Tours" className="h-14 w-14 object-contain" />
-        </Link>
+        </LocaleLink>
         <h1 className="text-center font-display text-2xl font-semibold">{title}</h1>
         {subtitle && <p className="mt-2 text-center text-sm text-muted-foreground">{subtitle}</p>}
         <div className="mt-8">{children}</div>
         {footer && <div className="mt-6 text-center text-sm">{footer}</div>}
         <p className="mt-6 text-center text-xs">
-          <Link to="/" className="text-muted-foreground hover:text-accent">← Back to nippon-tours.com</Link>
+          <LocaleLink to="/" className="text-muted-foreground hover:text-accent">← {t.common.backToSite}</LocaleLink>
         </p>
       </div>
     </div>

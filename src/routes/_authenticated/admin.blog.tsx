@@ -24,14 +24,19 @@ export const Route = createFileRoute("/_authenticated/admin/blog")({
         ]}
         fields={[
           { key: "title", label: "Title", type: "text", required: true },
+          { key: "title_ja", label: "Title (Japanese)", type: "text" },
           { key: "slug", label: "Slug", type: "text", required: true, help: "URL-safe, e.g. how-to-book-a-ryokan" },
           { key: "excerpt", label: "Excerpt (list card)", type: "textarea", rows: 2 },
+          { key: "excerpt_ja", label: "Excerpt (Japanese)", type: "textarea", rows: 2 },
           { key: "cover_image", label: "Cover image URL", type: "url" },
           { key: "category", label: "Category", type: "text" },
           { key: "author", label: "Author", type: "text" },
           { key: "body", label: "Body (Markdown supported)", type: "textarea", rows: 14 },
+          { key: "body_ja", label: "Body (Japanese, Markdown supported)", type: "textarea", rows: 14 },
           { key: "seo_title", label: "SEO title", type: "text" },
+          { key: "seo_title_ja", label: "SEO title (Japanese)", type: "text" },
           { key: "seo_description", label: "SEO description", type: "textarea", rows: 2 },
+          { key: "seo_description_ja", label: "SEO description (Japanese)", type: "textarea", rows: 2 },
           { key: "published", label: "Published", type: "boolean" },
           { key: "published_at", label: "Published at (ISO date)", type: "text", placeholder: "2026-07-12T00:00:00Z" },
         ]}

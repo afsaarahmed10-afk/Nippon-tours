@@ -33,6 +33,7 @@ export const Route = createFileRoute("/_authenticated/admin/vehicles")({
           { key: "price_per_day", label: "Price per day (JPY)", type: "number", required: true },
           { key: "image", label: "Image URL", type: "url" },
           { key: "description", label: "Description", type: "textarea", rows: 3 },
+          { key: "description_ja", label: "Description (Japanese)", type: "textarea", rows: 3 },
           { key: "transmission", label: "Transmission", type: "select", options: ["Automatic", "Manual"] },
           { key: "fuel_type", label: "Fuel type", type: "select", options: ["Petrol", "Diesel", "Hybrid", "Electric"] },
           { key: "driver_included", label: "Driver included", type: "boolean" },

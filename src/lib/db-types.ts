@@ -56,6 +56,17 @@ export interface Destination {
   sort_order: number;
   created_at: string;
   updated_at: string;
+  // Japanese translations — fall back to the English column above when empty.
+  name_ja: string | null;
+  region_ja: string | null;
+  tagline_ja: string | null;
+  summary_ja: string | null;
+  description_ja: string | null;
+  best_season_ja: string | null;
+  weather_ja: string | null;
+  nearby_attractions_ja: string[];
+  seo_title_ja: string | null;
+  seo_description_ja: string | null;
 }
 
 export interface Faq {
@@ -65,6 +76,8 @@ export interface Faq {
   category: string | null;
   sort_order: number;
   published: boolean;
+  question_ja: string | null;
+  answer_ja: string | null;
 }
 
 export interface Testimonial {
@@ -78,6 +91,7 @@ export interface Testimonial {
   featured: boolean;
   published: boolean;
   sort_order: number;
+  quote_ja: string | null;
 }
 
 export interface Review {
@@ -91,6 +105,7 @@ export interface Review {
   status: "pending" | "approved" | "rejected";
   featured: boolean;
   created_at: string;
+  comment_ja: string | null;
 }
 
 export interface BlogPost {
@@ -108,6 +123,11 @@ export interface BlogPost {
   published: boolean;
   published_at: string | null;
   created_at: string;
+  title_ja: string | null;
+  excerpt_ja: string | null;
+  body_ja: string | null;
+  seo_title_ja: string | null;
+  seo_description_ja: string | null;
 }
 
 export interface Vehicle {
@@ -129,6 +149,7 @@ export interface Vehicle {
   featured: boolean;
   published: boolean;
   sort_order: number;
+  description_ja: string | null;
 }
 
 export interface TripRequest {

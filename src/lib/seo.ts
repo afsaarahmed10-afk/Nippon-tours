@@ -13,18 +13,28 @@ export function absoluteUrl(path = "") {
   return `${SITE.url}${path}`;
 }
 
+/**
+ * `path` is always the canonical English path (e.g. "/tours/kyoto-day-tour"),
+ * regardless of `locale` — this mirrors how <LocaleLink> takes canonical paths.
+ * The function derives the locale-specific URL and hreflang alternates from it.
+ */
 export function seo({
   title,
   description,
   image,
-  path,
+  path = "",
+  locale = "en",
 }: {
   title: string;
   description: string;
   image?: string;
   path?: string;
+  locale?: "en" | "ja";
 }) {
-  const url = absoluteUrl(path || "");
+  const enPath = path;
+  const jaPath = enPath === "/" ? "/ja" : `/ja${enPath}`;
+  const localizedPath = locale === "ja" ? jaPath : enPath;
+  const url = absoluteUrl(localizedPath);
 
   return {
     title,
@@ -84,6 +94,21 @@ export function seo({
       {
         rel: "canonical",
         href: url,
+      },
+      {
+        rel: "alternate",
+        hrefLang: "en",
+        href: absoluteUrl(enPath),
+      },
+      {
+        rel: "alternate",
+        hrefLang: "ja",
+        href: absoluteUrl(jaPath),
+      },
+      {
+        rel: "alternate",
+        hrefLang: "x-default",
+        href: absoluteUrl(enPath),
       },
     ],
   };

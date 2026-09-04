@@ -16,20 +16,21 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { StickyCTA } from "@/components/site/StickyCTA";
 import { NipponAiChatWidget } from "@/components/chat/NipponAiChatWidget";
+import { LocaleLink } from "@/components/site/LocaleLink";
+import { useCommon, useLocale } from "@/i18n";
 
 function NotFoundComponent() {
+  const t = useCommon();
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">{t.notFound.heading}</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{t.notFound.body}</p>
         <div className="mt-6">
-          <Link to="/" className="btn-accent">
-            Go home
-          </Link>
+          <LocaleLink to="/" className="btn-accent">
+            {t.common.goHome}
+          </LocaleLink>
         </div>
       </div>
     </div>
@@ -39,6 +40,8 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+  const t = useCommon();
+  const locale = useLocale();
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
@@ -46,12 +49,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">{t.errorPage.heading}</h1>
+        <p className="mt-2 text-sm text-muted-foreground">{t.errorPage.body}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -60,10 +59,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="btn-accent"
           >
-            Try again
+            {t.common.tryAgain}
           </button>
-          <a href="/" className="btn-outline">
-            Go home
+          <a href={locale === "ja" ? "/ja" : "/"} className="btn-outline">
+            {t.common.goHome}
           </a>
         </div>
       </div>
@@ -149,8 +148,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const locale = useLocale();
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <HeadContent />
 

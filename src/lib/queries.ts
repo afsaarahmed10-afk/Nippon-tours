@@ -1,6 +1,7 @@
-import { TOURS } from "@/data/tours";
+import { TOURS, localizeTour } from "@/data/tours";
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import type { Locale } from "@/i18n";
 import heroFuji from "@/assets/hero-fuji.jpg";
 import tokyoImg from "@/assets/dest-tokyo.jpg";
 import kyotoImg from "@/assets/dest-kyoto.jpg";
@@ -20,6 +21,14 @@ import type {
   TripRequest,
   CarRentalRequest,
 } from "./db-types";
+import {
+  localizeDestinationRow,
+  localizeFaq,
+  localizeTestimonial,
+  localizeReview,
+  localizeBlogPost,
+  localizeVehicle,
+} from "./localize-db";
 
 // ---------- PUBLIC (only published rows visible via RLS) ----------
 
@@ -53,29 +62,29 @@ const withBundledBlogImage = (post: BlogPost): BlogPost => ({
   cover_image: BLOG_IMAGE_BY_SLUG[post.slug] ?? post.cover_image,
 });
 
-export const toursQueryOptions = () =>
+export const toursQueryOptions = (locale: Locale = "en") =>
   queryOptions({
-    queryKey: ["tours", "public"],
+    queryKey: ["tours", "public", locale],
     queryFn: async (): Promise<Tour[]> => {
-      return TOURS as unknown as Tour[];
+      return TOURS.map((t) => localizeTour(t, locale)) as unknown as Tour[];
     },
   });
 
-export const tourBySlugQueryOptions = (slug: string) =>
+export const tourBySlugQueryOptions = (slug: string, locale: Locale = "en") =>
   queryOptions({
-    queryKey: ["tours", "public", slug],
+    queryKey: ["tours", "public", slug, locale],
     queryFn: async (): Promise<Tour | null> => {
       const tour = TOURS.find((t) => t.slug === slug);
 
       if (!tour) return null;
 
-      return withBundledTourImage(tour as unknown as Tour);
+      return withBundledTourImage(localizeTour(tour, locale) as unknown as Tour);
     },
   });
 
-export const destinationsQueryOptions = () =>
+export const destinationsQueryOptions = (locale: Locale = "en") =>
   queryOptions({
-    queryKey: ["destinations", "public"],
+    queryKey: ["destinations", "public", locale],
     queryFn: async (): Promise<Destination[]> => {
       const { data, error } = await supabase
         .from("destinations")
@@ -83,13 +92,13 @@ export const destinationsQueryOptions = () =>
         .eq("published", true)
         .order("sort_order", { ascending: true });
       if (error) throw error;
-      return (data ?? []) as unknown as Destination[];
+      return ((data ?? []) as unknown as Destination[]).map((d) => localizeDestinationRow(d, locale));
     },
   });
 
-export const destinationBySlugQueryOptions = (slug: string) =>
+export const destinationBySlugQueryOptions = (slug: string, locale: Locale = "en") =>
   queryOptions({
-    queryKey: ["destinations", "public", slug],
+    queryKey: ["destinations", "public", slug, locale],
     queryFn: async (): Promise<Destination | null> => {
       const { data, error } = await supabase
         .from("destinations")
@@ -98,13 +107,13 @@ export const destinationBySlugQueryOptions = (slug: string) =>
         .eq("published", true)
         .maybeSingle();
       if (error) throw error;
-      return (data as unknown as Destination) ?? null;
+      return data ? localizeDestinationRow(data as unknown as Destination, locale) : null;
     },
   });
 
-export const faqsQueryOptions = () =>
+export const faqsQueryOptions = (locale: Locale = "en") =>
   queryOptions({
-    queryKey: ["faqs", "public"],
+    queryKey: ["faqs", "public", locale],
     queryFn: async (): Promise<Faq[]> => {
       const { data, error } = await supabase
         .from("faqs")
@@ -112,13 +121,13 @@ export const faqsQueryOptions = () =>
         .eq("published", true)
         .order("sort_order", { ascending: true });
       if (error) throw error;
-      return (data ?? []) as Faq[];
+      return ((data ?? []) as Faq[]).map((f) => localizeFaq(f, locale));
     },
   });
 
-export const testimonialsQueryOptions = () =>
+export const testimonialsQueryOptions = (locale: Locale = "en") =>
   queryOptions({
-    queryKey: ["testimonials", "public"],
+    queryKey: ["testimonials", "public", locale],
     queryFn: async (): Promise<Testimonial[]> => {
       const { data, error } = await supabase
         .from("testimonials")
@@ -127,13 +136,13 @@ export const testimonialsQueryOptions = () =>
         .order("featured", { ascending: false })
         .order("sort_order", { ascending: true });
       if (error) throw error;
-      return (data ?? []) as Testimonial[];
+      return ((data ?? []) as Testimonial[]).map((t) => localizeTestimonial(t, locale));
     },
   });
 
-export const approvedReviewsQueryOptions = () =>
+export const approvedReviewsQueryOptions = (locale: Locale = "en") =>
   queryOptions({
-    queryKey: ["reviews", "approved"],
+    queryKey: ["reviews", "approved", locale],
     queryFn: async (): Promise<Review[]> => {
       const { data, error } = await supabase
         .from("reviews")
@@ -142,13 +151,13 @@ export const approvedReviewsQueryOptions = () =>
         .order("featured", { ascending: false })
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data ?? []) as Review[];
+      return ((data ?? []) as Review[]).map((r) => localizeReview(r, locale));
     },
   });
 
-export const blogPostsQueryOptions = () =>
+export const blogPostsQueryOptions = (locale: Locale = "en") =>
   queryOptions({
-    queryKey: ["blog", "public"],
+    queryKey: ["blog", "public", locale],
     queryFn: async (): Promise<BlogPost[]> => {
       const { data, error } = await supabase
         .from("blog_posts")
@@ -156,13 +165,13 @@ export const blogPostsQueryOptions = () =>
         .eq("published", true)
         .order("published_at", { ascending: false });
       if (error) throw error;
-      return ((data ?? []) as unknown as BlogPost[]).map(withBundledBlogImage);
+      return ((data ?? []) as unknown as BlogPost[]).map((p) => withBundledBlogImage(localizeBlogPost(p, locale)));
     },
   });
 
-export const blogPostBySlugQueryOptions = (slug: string) =>
+export const blogPostBySlugQueryOptions = (slug: string, locale: Locale = "en") =>
   queryOptions({
-    queryKey: ["blog", "public", slug],
+    queryKey: ["blog", "public", slug, locale],
     queryFn: async (): Promise<BlogPost | null> => {
       const { data, error } = await supabase
         .from("blog_posts")
@@ -171,13 +180,13 @@ export const blogPostBySlugQueryOptions = (slug: string) =>
         .eq("published", true)
         .maybeSingle();
       if (error) throw error;
-      return data ? withBundledBlogImage(data as unknown as BlogPost) : null;
+      return data ? withBundledBlogImage(localizeBlogPost(data as unknown as BlogPost, locale)) : null;
     },
   });
 
-export const vehiclesQueryOptions = () =>
+export const vehiclesQueryOptions = (locale: Locale = "en") =>
   queryOptions({
-    queryKey: ["vehicles", "public"],
+    queryKey: ["vehicles", "public", locale],
     queryFn: async (): Promise<Vehicle[]> => {
       const { data, error } = await supabase
         .from("vehicles")
@@ -185,7 +194,7 @@ export const vehiclesQueryOptions = () =>
         .eq("published", true)
         .order("sort_order", { ascending: true });
       if (error) throw error;
-      return (data ?? []) as unknown as Vehicle[];
+      return ((data ?? []) as unknown as Vehicle[]).map((v) => localizeVehicle(v, locale));
     },
   });
 

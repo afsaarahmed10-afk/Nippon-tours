@@ -9,6 +9,7 @@ import { TOURS } from "@/data/tours";
 import { supabase } from "@/integrations/supabase/client";
 import { buildSystemPrompt, REAL_TOUR_SLUGS } from "./system-prompt";
 import { checkRateLimit } from "./rate-limit";
+import { getCommon } from "@/i18n";
 import type { ChatReplyEnvelope, ChatTourSummary } from "./types";
 
 const MODEL = process.env.AI_MODEL || "openai/gpt-oss-120b";
@@ -36,6 +37,7 @@ const chatRequestSchema = z.object({
   sessionId: z.string().trim().min(8).max(100),
   message: z.string().trim().min(1).max(MAX_MESSAGE_LENGTH),
   history: z.array(historyTurnSchema).max(30).default([]),
+  locale: z.enum(["en", "ja"]).default("en"),
 });
 
 const leadCaptureSchema = z.object({
@@ -44,6 +46,7 @@ const leadCaptureSchema = z.object({
   email: z.string().trim().email("Please enter a valid email").max(255),
   phone: z.string().trim().max(60).optional(),
   notes: z.string().trim().max(2000).optional(),
+  locale: z.enum(["en", "ja"]).default("en"),
 });
 
 const RESPOND_TOOL_NAME = "respond_to_traveler";
@@ -156,12 +159,13 @@ function extractTopics(message: string): string[] {
   return TOPIC_KEYWORDS.filter((k) => lower.includes(k));
 }
 
-function fallbackEnvelope(reply: string): ChatReplyEnvelope {
+function fallbackEnvelope(reply: string, locale: "en" | "ja" = "en"): ChatReplyEnvelope {
+  const t = getCommon(locale).chat;
   return {
     reply,
-    quickReplies: ["Plan my trip", "Best places to visit", "Talk to Nippon Tours"],
+    quickReplies: t.defaultQuickReplies,
     tours: [],
-    cta: { type: "contact", label: "Talk to a Nippon Tours Expert" },
+    cta: { type: "contact", label: t.defaultCtaLabel },
     leadIntent: false,
   };
 }
@@ -242,19 +246,18 @@ async function logConversation(
 export const sendChatMessage = createServerFn({ method: "POST" })
   .validator((data: unknown) => chatRequestSchema.parse(data))
   .handler(async ({ data }): Promise<ChatReplyEnvelope & { rateLimited?: boolean }> => {
+    const t = getCommon(data.locale).chat;
     const rate = checkRateLimit(clientIp());
     if (!rate.allowed) {
       return {
-        ...fallbackEnvelope(
-          "You've sent quite a few messages in a short time — please wait a moment before sending another, or reach out to Nippon Tours directly.",
-        ),
+        ...fallbackEnvelope(t.rateLimited, data.locale),
         rateLimited: true,
       };
     }
 
     const recentHistory = data.history.slice(-MAX_HISTORY_TURNS);
     const messages: Groq.Chat.Completions.ChatCompletionMessageParam[] = [
-      { role: "system", content: buildSystemPrompt() },
+      { role: "system", content: buildSystemPrompt(data.locale) },
       ...recentHistory.map((turn): Groq.Chat.Completions.ChatCompletionMessageParam => ({
         role: turn.role,
         content: turn.text,
@@ -281,22 +284,18 @@ export const sendChatMessage = createServerFn({ method: "POST" })
         // The model ignored the tool and replied in plain text — use that text rather
         // than discard it, so the traveler still gets a real answer.
         if (message?.content) {
-          const envelope = fallbackEnvelope(message.content);
+          const envelope = fallbackEnvelope(message.content, data.locale);
           void logConversation(data.sessionId, data.message, envelope);
           return envelope;
         }
-        return fallbackEnvelope(
-          "I couldn't quite put a reply together for that — could you try rephrasing, or would you like to talk to Nippon Tours directly?",
-        );
+        return fallbackEnvelope(t.parseFailure, data.locale);
       }
 
       let rawArgs: unknown;
       try {
         rawArgs = JSON.parse(toolCall.function.arguments);
       } catch {
-        return fallbackEnvelope(
-          "I couldn't quite put a reply together for that — could you try rephrasing, or would you like to talk to Nippon Tours directly?",
-        );
+        return fallbackEnvelope(t.parseFailure, data.locale);
       }
 
       const parsed = toolOutputSchema.parse(rawArgs);
@@ -307,7 +306,7 @@ export const sendChatMessage = createServerFn({ method: "POST" })
         cta:
           parsed.ctaType === "none"
             ? null
-            : { type: parsed.ctaType, label: parsed.ctaLabel || "Learn more" },
+            : { type: parsed.ctaType, label: parsed.ctaLabel || t.learnMore },
         leadIntent: parsed.leadIntent,
       };
 
@@ -317,18 +316,12 @@ export const sendChatMessage = createServerFn({ method: "POST" })
     } catch (error) {
       console.error("[chatbot] Groq request failed:", error);
       if (error instanceof Groq.AuthenticationError) {
-        return fallbackEnvelope(
-          "Nippon AI isn't fully set up yet on this site. In the meantime, our travel experts would love to help!",
-        );
+        return fallbackEnvelope(t.authNotSetUp, data.locale);
       }
       if (error instanceof Groq.RateLimitError) {
-        return fallbackEnvelope(
-          "I'm getting a lot of questions right now — please try again in a moment.",
-        );
+        return fallbackEnvelope(t.groqRateLimited, data.locale);
       }
-      return fallbackEnvelope(
-        "I'm having trouble connecting right now. Please try again in a moment, or reach out to Nippon Tours directly.",
-      );
+      return fallbackEnvelope(t.connectionError, data.locale);
     }
   });
 
@@ -357,7 +350,7 @@ export const submitChatLead = createServerFn({ method: "POST" })
         console.error("[chatbot] lead insert failed:", error);
         return {
           success: false,
-          error: "Could not send your details. Please try again or WhatsApp us.",
+          error: getCommon(data.locale).chat.leadInsertError,
         };
       }
 

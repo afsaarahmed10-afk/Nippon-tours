@@ -1,21 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { sendChatMessage, submitChatLead } from "@/lib/chat/chat.server";
+import { useCommon, useLocale, type Locale } from "@/i18n";
 import type { ChatMessage, ChatReplyEnvelope, ChatHistoryTurn } from "@/lib/chat/types";
 
 const SESSION_KEY = "nippon-ai-session-id";
-const MESSAGES_KEY = "nippon-ai-messages";
-
-export const QUICK_SUGGESTIONS = [
-  "Plan my Japan trip",
-  "Best places to visit",
-  "7-day itinerary",
-  "Japan trip cost",
-  "Tours & experiences",
-  "Talk to Nippon Tours",
-];
-
-const WELCOME_TEXT =
-  "👋 Konnichiwa! I'm Nippon AI, your Japan Travel Assistant.\n\nI can help you plan your Japan trip, find destinations, understand transportation, choose tours, and answer common questions about traveling in Japan.\n\nWhat are you planning?";
+const MESSAGES_KEY = "nippon-ai-messages-v2";
 
 function makeId(): string {
   return typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -23,15 +12,15 @@ function makeId(): string {
     : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
-function welcomeMessage(): ChatMessage {
+function welcomeMessage(locale: Locale, welcomeText: string, quickSuggestions: readonly string[]): ChatMessage {
   return {
     id: makeId(),
     role: "assistant",
-    text: WELCOME_TEXT,
+    text: welcomeText,
     createdAt: Date.now(),
     envelope: {
-      reply: WELCOME_TEXT,
-      quickReplies: QUICK_SUGGESTIONS,
+      reply: welcomeText,
+      quickReplies: [...quickSuggestions],
       tours: [],
       cta: null,
       leadIntent: false,
@@ -52,35 +41,47 @@ function loadSessionId(): string {
   }
 }
 
-function loadMessages(): ChatMessage[] {
-  if (typeof window === "undefined") return [welcomeMessage()];
+// Messages are cached per-locale (key suffixed with locale) so switching languages
+// mid-session starts a fresh, correctly-localized welcome rather than mixing languages.
+function loadMessages(locale: Locale, welcome: () => ChatMessage): ChatMessage[] {
+  if (typeof window === "undefined") return [welcome()];
   try {
-    const raw = window.sessionStorage.getItem(MESSAGES_KEY);
-    if (!raw) return [welcomeMessage()];
+    const raw = window.sessionStorage.getItem(`${MESSAGES_KEY}-${locale}`);
+    if (!raw) return [welcome()];
     const parsed = JSON.parse(raw) as ChatMessage[];
-    return parsed.length > 0 ? parsed : [welcomeMessage()];
+    return parsed.length > 0 ? parsed : [welcome()];
   } catch {
-    return [welcomeMessage()];
+    return [welcome()];
   }
 }
 
 export function useNipponChat() {
+  const locale = useLocale();
+  const t = useCommon().chat;
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>(() => loadMessages());
+  const [messages, setMessages] = useState<ChatMessage[]>(() =>
+    loadMessages(locale, () => welcomeMessage(locale, t.welcomeText, t.quickSuggestions)),
+  );
   const [isTyping, setIsTyping] = useState(false);
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [leadSubmitted, setLeadSubmitted] = useState(false);
   const sessionIdRef = useRef<string>(loadSessionId());
   const lastFailedTextRef = useRef<string | null>(null);
 
+  // Re-seed the conversation when the locale changes (e.g. via the language switcher).
+  useEffect(() => {
+    setMessages(loadMessages(locale, () => welcomeMessage(locale, t.welcomeText, t.quickSuggestions)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locale]);
+
   useEffect(() => {
     try {
-      window.sessionStorage.setItem(MESSAGES_KEY, JSON.stringify(messages.slice(-40)));
+      window.sessionStorage.setItem(`${MESSAGES_KEY}-${locale}`, JSON.stringify(messages.slice(-40)));
     } catch {
       // sessionStorage unavailable (private mode, etc.) — conversation just won't persist across reloads.
     }
-  }, [messages]);
+  }, [messages, locale]);
 
   const open = useCallback(() => {
     setIsOpen(true);
@@ -116,7 +117,7 @@ export function useNipponChat() {
           .map((m) => ({ role: m.role, text: m.text }));
 
         const envelope: ChatReplyEnvelope = await sendChatMessage({
-          data: { sessionId: sessionIdRef.current, message: trimmed, history },
+          data: { sessionId: sessionIdRef.current, message: trimmed, history, locale },
         });
 
         const assistantMessage: ChatMessage = {
@@ -135,7 +136,7 @@ export function useNipponChat() {
           {
             id: makeId(),
             role: "assistant",
-            text: "I'm having trouble connecting right now. Please try again in a moment, or reach out to Nippon Tours directly.",
+            text: t.connectionError,
             createdAt: Date.now(),
             isError: true,
           },
@@ -144,7 +145,7 @@ export function useNipponChat() {
         setIsTyping(false);
       }
     },
-    [messages],
+    [messages, locale, t.connectionError],
   );
 
   const retry = useCallback(() => {
@@ -167,7 +168,7 @@ export function useNipponChat() {
         .join("\n\n");
 
       const result = await submitChatLead({
-        data: { sessionId: sessionIdRef.current, ...lead, notes: notes || undefined },
+        data: { sessionId: sessionIdRef.current, ...lead, notes: notes || undefined, locale },
       });
       if (result.success) {
         setLeadSubmitted(true);
@@ -175,7 +176,7 @@ export function useNipponChat() {
       }
       return result;
     },
-    [messages],
+    [messages, locale],
   );
 
   return {

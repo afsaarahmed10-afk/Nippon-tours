@@ -14,6 +14,17 @@ interface SitemapEntry {
   priority?: string;
 }
 
+const jaPath = (path: string) => (path === "/" ? "/ja" : `/ja${path}`);
+
+// Every EN entry gets a /ja mirror, and each pair cross-references the other
+// via hreflang alternates so search engines understand they're the same page.
+function withJapaneseMirrors(entries: SitemapEntry[]): (SitemapEntry & { alternates: string[] })[] {
+  return entries.flatMap((e) => [
+    { ...e, alternates: [e.path, jaPath(e.path)] },
+    { path: jaPath(e.path), changefreq: e.changefreq, priority: e.priority, alternates: [e.path, jaPath(e.path)] },
+  ]);
+}
+
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
@@ -43,10 +54,14 @@ export const Route = createFileRoute("/sitemap.xml")({
           ...POSTS.map((p) => ({ path: `/blog/${p.slug}`, changefreq: "monthly" as const, priority: "0.6" })),
         ];
 
-        const urls = entries.map((e) =>
+        const urls = withJapaneseMirrors(entries).map((e) =>
           [
             `  <url>`,
             `    <loc>${BASE_URL}${e.path}</loc>`,
+            ...e.alternates.map(
+              (alt) =>
+                `    <xhtml:link rel="alternate" hreflang="${alt.startsWith("/ja") ? "ja" : "en"}" href="${BASE_URL}${alt}"/>`,
+            ),
             e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
             e.priority ? `    <priority>${e.priority}</priority>` : null,
             `  </url>`,
@@ -57,7 +72,7 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         const xml = [
           `<?xml version="1.0" encoding="UTF-8"?>`,
-          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`,
           ...urls,
           `</urlset>`,
         ].join("\n");

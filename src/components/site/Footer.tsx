@@ -1,15 +1,17 @@
-import { Link } from "@tanstack/react-router";
 import { Star, ShieldCheck, Clock, CreditCard, MessageCircle, Instagram, Facebook, Mail } from "lucide-react";
 import { SITE } from "@/data/site";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { LocaleLink } from "@/components/site/LocaleLink";
+import { useCommon } from "@/i18n";
 import logoAsset from "@/assets/nippon-tours-logo.png";
 
 
 export function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const t = useCommon();
 
   return (
     <footer className="bg-ink text-ink-foreground">
@@ -17,15 +19,11 @@ export function Footer() {
       <div className="border-b border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-14 text-center lg:flex-row lg:justify-between lg:text-left">
           <div>
-            <h2 className="font-display text-2xl font-semibold">Get the free Japan Planning Guide</h2>
-            <p className="mt-2 max-w-md text-sm text-ink-foreground/70">
-              Seasonal timing, sample itineraries and insider tips — plus early access to seasonal tour dates.
-            </p>
+            <h2 className="font-display text-2xl font-semibold">{t.footer.newsletterTitle}</h2>
+            <p className="mt-2 max-w-md text-sm text-ink-foreground/70">{t.footer.newsletterDesc}</p>
           </div>
           {subscribed ? (
-            <p className="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold">
-              ありがとう! Check your inbox for the guide.
-            </p>
+            <p className="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold">{t.footer.newsletterThanks}</p>
           ) : (
             <form
               className="flex w-full max-w-md gap-2"
@@ -36,14 +34,14 @@ export function Footer() {
                   .from("newsletter_subscribers")
                   .insert({ email: email.trim().toLowerCase(), source: "footer" });
                 if (error && !String(error.message).toLowerCase().includes("duplicate")) {
-                  toast.error("Could not subscribe. Please try again.");
+                  toast.error(t.footer.newsletterError);
                   return;
                 }
                 setSubscribed(true);
               }}
             >
               <label htmlFor="footer-email" className="sr-only">
-                Email address
+                {t.footer.emailAddressSr}
               </label>
               <input
                 id="footer-email"
@@ -51,11 +49,11 @@ export function Footer() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email address"
+                placeholder={t.footer.newsletterPlaceholder}
                 className="min-w-0 flex-1 rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm text-white placeholder:text-white/50 focus:border-accent focus:outline-none"
               />
               <button type="submit" className="btn-accent shrink-0 !px-5">
-                Send it
+                {t.footer.newsletterButton}
               </button>
             </form>
           )}
@@ -70,10 +68,7 @@ export function Footer() {
             </span>
             <p className="font-display text-xl font-semibold">Nippon Tours</p>
           </div>
-          <p className="mt-3 max-w-sm text-sm leading-relaxed text-ink-foreground/70">
-            A licensed Japanese tour operator crafting private, group and luxury journeys across Japan since 2014.
-            Real local guides, honest pricing, 24/7 support.
-          </p>
+          <p className="mt-3 max-w-sm text-sm leading-relaxed text-ink-foreground/70">{t.footer.companyBlurb}</p>
           <div className="mt-4 flex items-center gap-2 text-sm">
             <span className="flex text-gold" aria-hidden="true">
               {Array.from({ length: 5 }).map((_, i) => (
@@ -81,12 +76,12 @@ export function Footer() {
               ))}
             </span>
             <span className="font-semibold">4.9</span>
-            <span className="text-ink-foreground/60">on Google Reviews</span>
+            <span className="text-ink-foreground/60">{t.footer.ratingSuffix}</span>
           </div>
           <div className="mt-6 flex flex-wrap gap-4 text-xs text-ink-foreground/60">
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Licensed operator</span>
-            <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> Replies within 1 hour</span>
-            <span className="inline-flex items-center gap-1.5"><CreditCard className="h-4 w-4" /> Secure payments</span>
+            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> {t.footer.licensedOperator}</span>
+            <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> {t.footer.repliesWithin}</span>
+            <span className="inline-flex items-center gap-1.5"><CreditCard className="h-4 w-4" /> {t.footer.securePayments}</span>
           </div>
           <div className="mt-5 flex items-center gap-3">
             <a href={SITE.social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="grid h-10 w-10 place-items-center rounded-full bg-white/10 transition-colors hover:bg-accent hover:text-accent-foreground">
@@ -104,51 +99,51 @@ export function Footer() {
           </div>
         </div>
 
-        <nav aria-label="Explore">
-          <p className="text-sm font-bold uppercase tracking-wider text-ink-foreground/50">Explore</p>
+        <nav aria-label={t.footer.exploreHeading}>
+          <p className="text-sm font-bold uppercase tracking-wider text-ink-foreground/50">{t.footer.exploreHeading}</p>
           <ul className="mt-4 space-y-2.5 text-sm">
-            <li><Link to="/destinations" className="hover:text-accent">Destinations</Link></li>
-            <li><Link to="/tours" className="hover:text-accent">All Tours</Link></li>
-            <li><Link to="/private-tours" className="hover:text-accent">Private Tours</Link></li>
-            <li><Link to="/group-tours" className="hover:text-accent">Group Tours</Link></li>
-            <li><Link to="/luxury-tours" className="hover:text-accent">Luxury Tours</Link></li>
-            <li><Link to="/seasonal-experiences" className="hover:text-accent">Seasonal Experiences</Link></li>
+            <li><LocaleLink to="/destinations" className="hover:text-accent">{t.nav.destinations}</LocaleLink></li>
+            <li><LocaleLink to="/tours" className="hover:text-accent">{t.footer.allTours}</LocaleLink></li>
+            <li><LocaleLink to="/private-tours" className="hover:text-accent">{t.footer.privateTours}</LocaleLink></li>
+            <li><LocaleLink to="/group-tours" className="hover:text-accent">{t.footer.groupTours}</LocaleLink></li>
+            <li><LocaleLink to="/luxury-tours" className="hover:text-accent">{t.footer.luxuryTours}</LocaleLink></li>
+            <li><LocaleLink to="/seasonal-experiences" className="hover:text-accent">{t.footer.seasonalExperiences}</LocaleLink></li>
           </ul>
         </nav>
 
-        <nav aria-label="Services">
-          <p className="text-sm font-bold uppercase tracking-wider text-ink-foreground/50">Services</p>
+        <nav aria-label={t.footer.servicesHeading}>
+          <p className="text-sm font-bold uppercase tracking-wider text-ink-foreground/50">{t.footer.servicesHeading}</p>
           <ul className="mt-4 space-y-2.5 text-sm">
-            <li><Link to="/services/$slug" params={{ slug: "fit-travel" }} className="hover:text-accent">FIT Travel</Link></li>
-            <li><Link to="/services/$slug" params={{ slug: "mice" }} className="hover:text-accent">MICE</Link></li>
-            <li><Link to="/services/$slug" params={{ slug: "corporate-travel" }} className="hover:text-accent">Corporate Travel</Link></li>
-            <li><Link to="/services/$slug" params={{ slug: "airport-transfers" }} className="hover:text-accent">Airport Transfers</Link></li>
-            <li><Link to="/services/$slug" params={{ slug: "chauffeur-services" }} className="hover:text-accent">Chauffeur Services</Link></li>
-            <li><Link to="/services/$slug" params={{ slug: "car-rental" }} className="hover:text-accent">Car Rental</Link></li>
-            <li><Link to="/services/$slug" params={{ slug: "hotel-reservations" }} className="hover:text-accent">Hotel Reservations</Link></li>
-            <li><Link to="/services" className="hover:text-accent">All services →</Link></li>
+            <li><LocaleLink to="/services/$slug" params={{ slug: "fit-travel" }} className="hover:text-accent">{t.footer.fitTravel}</LocaleLink></li>
+            <li><LocaleLink to="/services/$slug" params={{ slug: "mice" }} className="hover:text-accent">{t.footer.mice}</LocaleLink></li>
+            <li><LocaleLink to="/services/$slug" params={{ slug: "corporate-travel" }} className="hover:text-accent">{t.footer.corporateTravel}</LocaleLink></li>
+            <li><LocaleLink to="/services/$slug" params={{ slug: "airport-transfers" }} className="hover:text-accent">{t.footer.airportTransfers}</LocaleLink></li>
+            <li><LocaleLink to="/services/$slug" params={{ slug: "chauffeur-services" }} className="hover:text-accent">{t.footer.chauffeurServices}</LocaleLink></li>
+            <li><LocaleLink to="/services/$slug" params={{ slug: "car-rental" }} className="hover:text-accent">{t.footer.carRental}</LocaleLink></li>
+            <li><LocaleLink to="/services/$slug" params={{ slug: "hotel-reservations" }} className="hover:text-accent">{t.footer.hotelReservations}</LocaleLink></li>
+            <li><LocaleLink to="/services" className="hover:text-accent">{t.footer.allServices}</LocaleLink></li>
           </ul>
         </nav>
 
-        <nav aria-label="Resources">
-          <p className="text-sm font-bold uppercase tracking-wider text-ink-foreground/50">Resources</p>
+        <nav aria-label={t.footer.resourcesHeading}>
+          <p className="text-sm font-bold uppercase tracking-wider text-ink-foreground/50">{t.footer.resourcesHeading}</p>
           <ul className="mt-4 space-y-2.5 text-sm">
-            <li><Link to="/travel-guides" className="hover:text-accent">Travel Guides</Link></li>
-            <li><Link to="/blog" className="hover:text-accent">Blog</Link></li>
-            <li><Link to="/faqs" className="hover:text-accent">FAQs</Link></li>
+            <li><LocaleLink to="/travel-guides" className="hover:text-accent">{t.nav.travelGuides}</LocaleLink></li>
+            <li><LocaleLink to="/blog" className="hover:text-accent">{t.nav.blog}</LocaleLink></li>
+            <li><LocaleLink to="/faqs" className="hover:text-accent">{t.footer.faqs}</LocaleLink></li>
           </ul>
         </nav>
 
-        <nav aria-label="Company">
-          <p className="text-sm font-bold uppercase tracking-wider text-ink-foreground/50">Company</p>
+        <nav aria-label={t.footer.companyHeading}>
+          <p className="text-sm font-bold uppercase tracking-wider text-ink-foreground/50">{t.footer.companyHeading}</p>
           <ul className="mt-4 space-y-2.5 text-sm">
-            <li><Link to="/about" className="hover:text-accent">About Us</Link></li>
-            <li><Link to="/services" className="hover:text-accent">Services</Link></li>
-            <li><Link to="/reviews" className="hover:text-accent">Reviews</Link></li>
-            <li><Link to="/contact" className="hover:text-accent">Contact</Link></li>
-            <li><Link to="/plan-my-trip" className="hover:text-accent">Plan My Trip</Link></li>
-            <li><Link to="/privacy" className="hover:text-accent">Privacy Policy</Link></li>
-            <li><Link to="/terms" className="hover:text-accent">Terms & Conditions</Link></li>
+            <li><LocaleLink to="/about" className="hover:text-accent">{t.footer.aboutUs}</LocaleLink></li>
+            <li><LocaleLink to="/services" className="hover:text-accent">{t.nav.services}</LocaleLink></li>
+            <li><LocaleLink to="/reviews" className="hover:text-accent">{t.footer.reviews}</LocaleLink></li>
+            <li><LocaleLink to="/contact" className="hover:text-accent">{t.nav.contact}</LocaleLink></li>
+            <li><LocaleLink to="/plan-my-trip" className="hover:text-accent">{t.nav.planMyTrip}</LocaleLink></li>
+            <li><LocaleLink to="/privacy" className="hover:text-accent">{t.footer.privacyPolicy}</LocaleLink></li>
+            <li><LocaleLink to="/terms" className="hover:text-accent">{t.footer.termsConditions}</LocaleLink></li>
             <li>
               <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-accent">
                 <MessageCircle className="h-4 w-4" /> WhatsApp
@@ -165,8 +160,8 @@ export function Footer() {
 
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-ink-foreground/50 sm:flex-row">
-          <p>© {new Date().getFullYear()} Nippon-tours.com — All rights reserved. Registered travel operator, Tokyo, Japan.</p>
-          <p>Visa · Mastercard · Amex · PayPal · Bank transfer</p>
+          <p>{t.footer.copyright(new Date().getFullYear())}</p>
+          <p>{t.footer.paymentMethods}</p>
         </div>
       </div>
     </footer>

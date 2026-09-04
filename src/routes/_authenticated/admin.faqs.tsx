@@ -19,7 +19,9 @@ export const Route = createFileRoute("/_authenticated/admin/faqs")({
         ]}
         fields={[
           { key: "question", label: "Question", type: "text", required: true },
+          { key: "question_ja", label: "Question (Japanese)", type: "text" },
           { key: "answer", label: "Answer", type: "textarea", rows: 5, required: true },
+          { key: "answer_ja", label: "Answer (Japanese)", type: "textarea", rows: 5 },
           { key: "category", label: "Category", type: "text" },
           { key: "sort_order", label: "Sort order", type: "number" },
           { key: "published", label: "Published", type: "boolean" },

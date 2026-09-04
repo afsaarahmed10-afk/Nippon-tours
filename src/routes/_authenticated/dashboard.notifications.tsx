@@ -5,13 +5,35 @@ import { DashboardPage } from "@/components/customer/DashboardShell";
 import { myNotificationsQueryOptions } from "@/lib/customer-queries";
 import { supabase } from "@/integrations/supabase/client";
 import { Bell, BellRing } from "lucide-react";
+import type { Locale } from "@/i18n";
+
+const COPY: Record<Locale, {
+  title: string;
+  description: string;
+  markAllRead: string;
+  empty: string;
+}> = {
+  en: {
+    title: "Notifications",
+    description: "Trip status updates, messages and alerts.",
+    markAllRead: "Mark all as read",
+    empty: "No notifications yet.",
+  },
+  ja: {
+    title: "通知",
+    description: "旅行ステータスの更新、メッセージ、お知らせをまとめて表示します。",
+    markAllRead: "すべて既読にする",
+    empty: "まだ通知はありません。",
+  },
+};
 
 export const Route = createFileRoute("/_authenticated/dashboard/notifications")({
-  component: NotificationsPage,
+  component: () => <NotificationsPage locale="en" />,
 });
 
-function NotificationsPage() {
+export function NotificationsPage({ locale = "en" }: { locale?: Locale }) {
   const { user } = useAuth();
+  const c = COPY[locale];
   const qc = useQueryClient();
   const { data: notes } = useSuspenseQuery(myNotificationsQueryOptions(user?.id ?? null));
 
@@ -24,18 +46,18 @@ function NotificationsPage() {
 
   return (
     <DashboardPage
-      title="Notifications"
-      description="Trip status updates, messages and alerts."
+      title={c.title}
+      description={c.description}
       action={
         notes.some((n) => !n.read_at) ? (
-          <button className="btn-outline" onClick={markAllRead}>Mark all as read</button>
+          <button className="btn-outline" onClick={markAllRead}>{c.markAllRead}</button>
         ) : null
       }
     >
       {notes.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
           <Bell className="mx-auto h-8 w-8 text-muted-foreground" />
-          <p className="mt-3 text-muted-foreground">No notifications yet.</p>
+          <p className="mt-3 text-muted-foreground">{c.empty}</p>
         </div>
       ) : (
         <ul className="space-y-2">

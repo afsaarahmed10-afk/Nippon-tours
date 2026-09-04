@@ -5,14 +5,22 @@ import { SITE } from "@/data/site";
 import { useAuth } from "@/hooks/useAuth";
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { LanguageSwitcher } from "@/components/site/LanguageSwitcher";
-import { useCommon } from "@/i18n";
+import { useCommon, usePathname, stripLocale } from "@/i18n";
 import logoAsset from "@/assets/nippon-tours-logo.png";
+
+// Pages with no dark hero image behind the header — the login/signup/dashboard
+// shells are light, so the header needs its "scrolled" (dark text) styling from
+// the very first paint or the white nav text disappears against them.
+const LIGHT_BACKGROUND_PATHS = ["/login", "/signup", "/forgot-password", "/reset-password", "/admin/login", "/dashboard"];
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { user, isAdmin } = useAuth();
   const t = useCommon();
+  const pathname = stripLocale(usePathname());
+  const onLightBackground = LIGHT_BACKGROUND_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+  const dark = scrolled || open || onLightBackground;
 
   const NAV = [
     { to: "/destinations", label: t.nav.destinations },
@@ -34,14 +42,14 @@ export function Header() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled || open ? "glass shadow-sm" : "bg-transparent"
+        dark ? "glass shadow-sm" : "bg-transparent"
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-20">
         <LocaleLink to="/" className="flex min-w-0 items-center gap-2" aria-label={t.nav.homeAria} onClick={() => setOpen(false)}>
           <span
             className={`grid h-11 w-11 shrink-0 place-items-center rounded-full transition-colors lg:h-12 lg:w-12 ${
-              scrolled || open ? "bg-transparent" : "bg-white/95 shadow-sm"
+              dark ? "bg-transparent" : "bg-white/95 shadow-sm"
             }`}
             aria-hidden="true"
           >
@@ -55,7 +63,7 @@ export function Header() {
           </span>
           <span
             className={`truncate font-display text-lg font-semibold tracking-tight ${
-              scrolled || open ? "text-foreground" : "text-white"
+              dark ? "text-foreground" : "text-white"
             }`}
           >
             Nippon Tours
@@ -69,7 +77,7 @@ export function Header() {
               to={item.to}
               activeProps={{ className: "text-accent" }}
               className={`text-sm font-semibold transition-colors hover:text-accent ${
-                scrolled ? "text-foreground" : "text-white"
+                dark ? "text-foreground" : "text-white"
               }`}
             >
               {item.label}
@@ -79,7 +87,7 @@ export function Header() {
             <Link
               to="/admin"
               className={`inline-flex items-center gap-1.5 text-sm font-semibold hover:text-accent ${
-                scrolled ? "text-foreground" : "text-white"
+                dark ? "text-foreground" : "text-white"
               }`}
             >
               <LayoutDashboard className="h-4 w-4" /> {t.nav.admin}
@@ -89,7 +97,7 @@ export function Header() {
             <LocaleLink
               to="/dashboard"
               className={`inline-flex items-center gap-1.5 text-sm font-semibold hover:text-accent ${
-                scrolled ? "text-foreground" : "text-white"
+                dark ? "text-foreground" : "text-white"
               }`}
             >
               <User className="h-4 w-4" /> {t.nav.myAccount}
@@ -98,13 +106,13 @@ export function Header() {
             <LocaleLink
               to="/login"
               className={`inline-flex items-center gap-1.5 text-sm font-semibold hover:text-accent ${
-                scrolled ? "text-foreground" : "text-white"
+                dark ? "text-foreground" : "text-white"
               }`}
             >
               <LogIn className="h-4 w-4" /> {t.nav.signIn}
             </LocaleLink>
           )}
-          <LanguageSwitcher light={!scrolled} />
+          <LanguageSwitcher light={!dark} />
           <LocaleLink to="/plan-my-trip" className="btn-accent !px-5 !py-2.5 text-sm">
             {t.nav.planMyTrip}
           </LocaleLink>
@@ -112,7 +120,7 @@ export function Header() {
 
         <button
           className={`inline-flex h-11 w-11 items-center justify-center rounded-full lg:hidden ${
-            scrolled || open ? "text-foreground" : "text-white"
+            dark ? "text-foreground" : "text-white"
           }`}
           aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
           aria-expanded={open}
